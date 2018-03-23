@@ -16,28 +16,28 @@ const bartenderSeed = [
     username: "bobby",
     password: "password",
     classicsMastered: false,
-    inProgress: [{drinkName: "Manhattan" timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
+    inProgress: [{drinkName: "Manhattan", timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
     drinksMastered: [{drinkName: "Old Fashioned", timesMade: 3}]
   },
   {
     username: "robby",
     password: "password",
     classicsMastered: false,
-    inProgress: [{drinkName: "Manhattan" timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
+    inProgress: [{drinkName: "Manhattan", timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
     drinksMastered: [{drinkName: "Old Fashioned", timesMade: 3}]
   },
   {
     username: "the sheath",
     password: "password",
     classicsMastered: false,
-    inProgress: [{drinkName: "Manhattan" timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
+    inProgress: [{drinkName: "Manhattan", timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
     drinksMastered: [{drinkName: "Old Fashioned", timesMade: 3}]
   },
   {
     username: "master",
     password: "master",
     classicsMastered: true,
-    inProgress: [{drinkName: "Manhattan" timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
+    inProgress: [{drinkName: "Manhattan", timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
     drinksMastered: [{drinkName: "Old Fashioned", timesMade: 3}]
   }
 ];
