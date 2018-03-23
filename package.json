@@ -1,0 +1,33 @@
+{
+  "name": "bartender-game",
+  "version": "1.0.0",
+  "description": "Learn your cocktails with a fun and easy game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LtBackup/Bartender-Game.git"
+  },
+  "keywords": [
+    "bartend",
+    "bartender",
+    "game",
+    "cocktail"
+  ],
+  "author": "James Pratt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LtBackup/Bartender-Game/issues"
+  },
+  "homepage": "https://github.com/LtBackup/Bartender-Game#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.11",
+    "react-router-dom": "^4.2.2"
+  }
+}
