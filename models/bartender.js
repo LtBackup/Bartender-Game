@@ -5,7 +5,7 @@ const bartenderSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   classicsMastered: { type: Boolean, default: false },
-  date: { type: Date, default: Date.now }
+  drinksMastered: [Boolean]
 });
 
 const Bartender = mongoose.model("Bartender", bartenderSchema);
