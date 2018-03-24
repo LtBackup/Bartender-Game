@@ -10,12 +10,22 @@ import CocktailAPI from "../../utils/CocktailAPI.js";
 class Bar extends Component {
   // Initialize this.state.books as an empty array
   state = {
-    currentDrink: ""
+    currentDrinkData: {}
   };
 
   componentDidMount(){
-    this.setState({currentDrink: CocktailAPI.getClassic().drinks[0].strDrink});
-    console.log(this.state.currentDrink);
+    // CocktailAPI.getCocktail("Pink Squirrel")
+    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
+    // .then(res => console.log(this.state.currentDrinkData))
+    // .catch(err => console.log(err));
+    // CocktailAPI.getClassic()
+    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
+    // .then(res => console.log(this.state.currentDrinkData))
+    // .catch(err => console.log(err));
+    CocktailAPI.getRandom()
+    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
+    .then(res => console.log(res.data.drinks[0].strDrink))
+    .catch(err => console.log(err));
   }
 
   render() {
