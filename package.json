@@ -28,6 +28,10 @@
     "url": "https://github.com/LtBackup/Bartender-Game/issues"
   },
   "homepage": "https://github.com/LtBackup/Bartender-Game#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.11.0"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
