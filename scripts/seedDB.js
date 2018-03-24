@@ -27,7 +27,7 @@ const bartenderSeed = [
     drinksMastered: [{drinkName: "Old Fashioned", timesMade: 3}]
   },
   {
-    username: "the sheath",
+    username: "robby the sheath",
     password: "password",
     classicsMastered: false,
     inProgress: [{drinkName: "Manhattan", timesMade: 2}, {drinkName:"Daiquiri", timesMade: 1}],
@@ -44,7 +44,7 @@ const bartenderSeed = [
 
 db.Bartender
   .remove({})
-  .then(() => db.Bartender.collection.insertMany(bookSeed))
+  .then(() => db.Bartender.collection.insertMany(bartenderSeed))
   .then(data => {
     console.log(data.insertedIds.length + " records inserted!");
     process.exit(0);
