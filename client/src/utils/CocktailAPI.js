@@ -11,13 +11,11 @@ const CLASSICS = [
   "Mojito",
   "Sidecar",
   "Sazerac",
-  "Vieux Carre",
   "Gin and Tonic",
   "Collins",
   "French 75",
   "Caipirinha",
   "Negroni",
-  "Buck",
   "Moscow Mule",
   "Mint Julep",
   "Pisco Sour",
@@ -25,15 +23,11 @@ const CLASSICS = [
   "Dark and Stormy",
   "Martini",
   "Cosmopolitan",
-  "Lion's Tail",
-  "Pink Squirrel",
   "Long Island Iced Tea",
   "Pina Colada",
-  "Hurricane",
-  "Last Word",
-  "Pimm's Cup",
   "Boulevardier"
   ];
+  //to add: Pink Squirrel, Vieux Carre, Buck, Last Word, Lion's Tail, Pimm's Cup, Hurricane
 
 export default {
   getRandom: function() {
@@ -43,6 +37,8 @@ export default {
       return axios.get(BASEURL + APIKEY + SEARCH + query);
   },
   getClassic: function(){
-    return axios.get(BASEURL + APIKEY + SEARCH + CLASSICS[Math.random()*CLASSICS.length]);
+    const classic = CLASSICS[Math.floor(Math.random()*CLASSICS.length)];
+    console.log(classic);
+    return axios.get(BASEURL + APIKEY + SEARCH + classic);
   }
 };
