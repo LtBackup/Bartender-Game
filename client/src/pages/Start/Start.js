@@ -5,6 +5,8 @@ import { Col, Row, Container } from "../../components/Grid";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
+import './Start.css';
+ 
 
 class Start extends Component {
     state = {
@@ -12,7 +14,6 @@ class Start extends Component {
     };
 
     componentDidMount() {
-        // this.setState({ books: API.getBooks() });
     }
 
     render() {

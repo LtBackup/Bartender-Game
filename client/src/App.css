@@ -1,5 +1,6 @@
 body {
-  background-image: url("../public/images/barBG.jpg");
+  background-image: url("./barBG.jpg");
+  background-size: 100% 100%;
 }
 
 .App {
