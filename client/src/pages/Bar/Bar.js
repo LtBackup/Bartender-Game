@@ -5,7 +5,7 @@ import { Col, Row, Container } from "../../components/Grid";
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
-//import DBAPI from "../../utils/DBAPI.js";
+import DBAPI from "../../utils/DBAPI.js";
 
 class Bar extends Component {
   // Initialize this.state.books as an empty array
@@ -14,18 +14,18 @@ class Bar extends Component {
   };
 
   componentDidMount(){
-    // CocktailAPI.getCocktail("Pink Squirrel")
+    // CocktailAPI.getCocktail("Manhattan")
     // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
     // .then(res => console.log(this.state.currentDrinkData))
     // .catch(err => console.log(err));
-    // CocktailAPI.getClassic()
-    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
-    // .then(res => console.log(this.state.currentDrinkData))
-    // .catch(err => console.log(err));
-    CocktailAPI.getRandom()
-    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
-    .then(res => console.log(res.data.drinks[0].strDrink))
+    CocktailAPI.getClassic()
+    .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
+    .then(res => console.log(this.state.currentDrinkData))
     .catch(err => console.log(err));
+    // CocktailAPI.getRandom()
+    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
+    // .then(() => console.log(this.state.currentDrinkData))
+    // .catch(err => console.log(err));
   }
 
   render() {

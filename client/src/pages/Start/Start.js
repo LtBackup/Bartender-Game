@@ -4,13 +4,12 @@ import { Col, Row, Container } from "../../components/Grid";
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
-//import DBAPI from "../../utils/DBAPI.js";
+import DBAPI from "../../utils/DBAPI.js";
 
 class Start extends Component {
-    // Initialize this.state.books as an empty array
-    //   state = {
-    //     loggedIn: []
-    //   };
+    state = {
+        loggedIn: false
+    };
 
     componentDidMount() {
         // this.setState({ books: API.getBooks() });
