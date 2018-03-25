@@ -9,6 +9,8 @@ import { Col, Row, Container } from "../../components/Grid";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
+import './Bar.css';
+
 
 class Bar extends Component {
   // Initialize this.state.books as an empty array
