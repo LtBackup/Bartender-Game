@@ -38,7 +38,7 @@ class Bar extends Component {
       <Container fluid>
         <div className="stage">
           <DrinkCard />
-          <h1>Books On My List</h1>
+          <h1>{this.state.currentDrinkData.strDrink}</h1>
           <Canvas />
           <Serve />
           <Rack />
