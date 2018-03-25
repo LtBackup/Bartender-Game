@@ -15,7 +15,8 @@ import './Bar.css';
 class Bar extends Component {
   // Initialize this.state.books as an empty array
   state = {
-    currentDrinkData: {}
+    currentDrinkData: {},
+    ingredients: [] //objects with ingredients and pour amounts
   };
 
   componentDidMount() {
@@ -24,8 +25,32 @@ class Bar extends Component {
     // .then(res => console.log(this.state.currentDrinkData))
     // .catch(err => console.log(err));
     CocktailAPI.getClassic()
-      .then(res => this.setState({ currentDrinkData: res.data.drinks[0] }))
-      .then(res => console.log(this.state.currentDrinkData))
+      .then(res => {
+        let validIngredients = [];
+        let validMeasurements = [];
+        let validComponents = [];
+        this.setState({ currentDrinkData: res.data.drinks[0] });
+        for (let k in res.data.drinks[0]) {
+          //console.log(k);
+          if (k.includes("Ingredient") && res.data.drinks[0][k] !== "") {
+            validIngredients.push(res.data.drinks[0][k]);
+          }
+          if (k.includes("Measure") && res.data.drinks[0][k] !== "") {
+            validMeasurements.push(res.data.drinks[0][k]);
+            console.log(res.data.drinks[0][k]);
+          }
+        }
+        validMeasurements.forEach((e, i) => {
+          if (e.includes("oz")) {
+            validComponents.push({ ingredient: validIngredients[i], measurement: validMeasurements[i] });
+          }
+        })
+        this.setState({ ingredients: validComponents });
+      })
+      .then(res => {
+        console.log(this.state.currentDrinkData);
+        console.log(this.state.ingredients);
+      })
       .catch(err => console.log(err));
     // CocktailAPI.getRandom()
     // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))

@@ -6,6 +6,7 @@ import { Col, Row, Container } from "../../components/Grid";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
+import "./Trophies.css";
 
 class Trophies extends Component {
   // Initialize this.state.books as an empty array
