@@ -24,6 +24,7 @@ class Bar extends Component {
     // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
     // .then(res => console.log(this.state.currentDrinkData))
     // .catch(err => console.log(err));
+
     CocktailAPI.getClassic()
       .then(res => {
         let validIngredients = [];
@@ -59,10 +60,11 @@ class Bar extends Component {
   }
 
   render() {
+    console.log(this.state.ingredients);
     return (
       <Container fluid>
         <div className="stage">
-          <DrinkCard />
+          <DrinkCard name={this.state.currentDrinkData.strDrink} ingredients={this.state.ingredients}/>
           <h1>{this.state.currentDrinkData.strDrink}</h1>
           <Canvas />
           <Serve />
