@@ -36,7 +36,7 @@ class Bar extends Component {
   stopCounting = e => {
     let keyup = e.key;
     if (keyup > 0 && keyup < 5) {
-      let copyStop = this.state.keysPressed.slice();
+      let copyStop = [...this.state.keysPresed];
       copyStop[keyup - 1] = false;
       this.setState({ keysPressed: copyStop });
       console.log(this.state.keysPressed);
@@ -44,7 +44,7 @@ class Bar extends Component {
   }
 
     count = () => {
-      let copyCount = this.state.keysPressed.slice();
+      let copyCount = [...this.state.counters];
       this.state.keysPressed.forEach((e, i) => {
         if(e) {
           copyCount[i] += .01;
