@@ -22,8 +22,8 @@ const DrinkCard = (props) => (
         <h2>Poured</h2>
       </Col>
     </Row>
-    {props.ingredients.map(e =>
-      <Row>
+    {props.ingredients.map((e, i) =>
+      <Row key={e.ingredient}>
         <Col size="xs-4">
           <h3>{e.ingredient}</h3>
         </Col>
@@ -31,7 +31,7 @@ const DrinkCard = (props) => (
           <h3>{e.measurement}</h3>
         </Col>
         <Col size="xs-4">
-          <h3>Counter</h3>
+          <h3>{props.counter[i]}</h3>
         </Col>
       </Row>
     )}

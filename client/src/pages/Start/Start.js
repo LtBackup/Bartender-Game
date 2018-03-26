@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
-import { Col, Row, Container } from "../../components/Grid";
+// import { Col, Row, Container } from "../../components/Grid";
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Col, Row, Grid } from "react-bootstrap";
 import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
 import './Start.css';
@@ -18,7 +19,7 @@ class Start extends Component {
 
     render() {
         return (
-            <Container fluid>
+            <Grid fluid>
                 <Row>
                     <Jumbotron>
                         <h1>Let's Mix it Up!</h1>
@@ -27,7 +28,7 @@ class Start extends Component {
                     //Login here
                     </Row>
                 </Row>
-            </Container>
+            </Grid>
         );
     }
 }
