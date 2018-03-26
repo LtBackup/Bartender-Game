@@ -8,7 +8,7 @@ const DrinkCard = (props) => (
   <div className="DrinkCard">
     <Row>
       <Col size="xs-12">
-        <h2>{props.name}</h2>
+        <h1>{props.name}</h1>
       </Col>
     </Row>
     <Row>

@@ -5,3 +5,7 @@
     clear: both;
     color: #222222;
 }
+
+h2 {
+    text-decoration: underline;
+}
