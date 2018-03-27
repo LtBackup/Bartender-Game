@@ -18,45 +18,60 @@ class Bar extends Component {
     currentDrinkData: {},
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
-    counters: [],
+    counters: [0, 0, 0, 0],
     drinkDone: false
   };
 
-  incrementCounter = e => {
-    let keypress = e.key;
-    if (keypress > 0 && keypress < 5) {
-      let copy = this.state.keysPressed.slice();
-      copy[keypress - 1] = true;
-      this.setState({ keysPressed: copy });
-      this.count();
-      console.log(this.state.keysPressed);
-    }
-  };
+  // incrementCounter = e => {
+  //   let keypress = e.key;
+  //   if (keypress > 0 && keypress < 5) {
+  //     let copy = [...this.state.keysPressed];
+  //     copy[keypress - 1] = true;
+  //     this.setState({ keysPressed: copy });
+  //     console.log(this.state.keysPressed);
+  //   }
+  // };
 
-  stopCounting = e => {
-    let keyup = e.key;
-    if (keyup > 0 && keyup < 5) {
-      let copyStop = [...this.state.keysPresed];
-      copyStop[keyup - 1] = false;
-      this.setState({ keysPressed: copyStop });
-      console.log(this.state.keysPressed);
-    };
-  }
+  // stopCounting = e => {
+  //   let keyup = e.key;
+  //   if (keyup > 0 && keyup < 5) {
+  //     let copyStop = [...this.state.keysPresed];
+  //     copyStop[keyup - 1] = false;
+  //     this.setState({ keysPressed: copyStop });
+  //     console.log(this.state.keysPressed);
+  //   };
+  // }
+
+    toggleKeys = e => {
+      let keyup = e.key;
+        if (keyup > 0 && keyup < 5) {
+          let copyPress = [...this.state.keysPressed];
+          // e = e || event; // to deal with IE
+          console.log(e.type);
+          copyPress[keyup-1] = e.type == 'keydown';
+          //copyStop[keyup - 1] = false;
+          /* insert conditional here */
+          this.setState({ keysPressed: copyPress });
+          console.log(this.state.keysPressed);
+        };
+    }
 
     count = () => {
       let copyCount = [...this.state.counters];
       this.state.keysPressed.forEach((e, i) => {
         if(e) {
           copyCount[i] += .01;
+          copyCount[i].toFixed(2);
           this.setState({ counters: copyCount });
         }
       })
       console.log(this.state.counters);
+      requestAnimationFrame(this.count);
     }
 
     addListeners = () => {
-      document.addEventListener("keydown", this.incrementCounter);
-      document.addEventListener("keyup", this.stopCounting);
+      document.addEventListener("keydown", this.toggleKeys);
+      document.addEventListener("keyup", this.toggleKeys);
     }
 
     getCocktail = () => {
@@ -101,6 +116,7 @@ class Bar extends Component {
     componentDidMount() {
       this.getCocktail();
       this.addListeners();
+      requestAnimationFrame(this.count);
     }
 
     render() {
