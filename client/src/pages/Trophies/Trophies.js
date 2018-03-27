@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 //import DeleteBtn from "../../components/DeleteBtn";
-import { Col, Row, Container } from "../../components/Grid";
+// import { Col, Row, Container } from "../../components/Grid";
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Col, Row, Grid } from "react-bootstrap";
 import CocktailAPI from "../../utils/CocktailAPI.js";
-//import DBAPI from "../../utils/DBAPI.js";
+import DBAPI from "../../utils/DBAPI.js";
+import "./Trophies.css";
 
 class Trophies extends Component {
   // Initialize this.state.books as an empty array
@@ -19,7 +21,7 @@ class Trophies extends Component {
 
   render() {
     return (
-      <Container fluid>
+      <Grid fluid>
         <Row>
           <Col size="md-6">
             <Jumbotron>
@@ -37,7 +39,7 @@ class Trophies extends Component {
             </Jumbotron>
           </Col>
         </Row>
-      </Container>
+      </Grid>
     );
   }
 }

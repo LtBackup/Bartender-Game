@@ -1,4 +1,14 @@
-.App {
+body {
+  background-color: #0D0C0A;
+  /* background-size: 100% 100%; */
+  color: lightgray;
+}
+
+a {
+  color: lightgray;
+}
+
+/* .App {
   text-align: center;
 }
 
@@ -20,9 +30,9 @@
 
 .App-intro {
   font-size: large;
-}
+} */
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
+} */

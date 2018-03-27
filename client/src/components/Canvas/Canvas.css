@@ -1,0 +1,18 @@
+#barScene {
+    /* background-image: url("../../barBG.jpg");
+    background-size: auto 100%; */
+    margin: 0 auto;
+    width: 100%;
+    height: 80vh;
+    /* text-align: center; */
+    color: lightgray;
+    clear: both;
+    position: relative;
+    z-index: 2;
+}
+#barBG {
+    position:absolute;
+    z-index:1;
+    max-width: 100%;
+
+}

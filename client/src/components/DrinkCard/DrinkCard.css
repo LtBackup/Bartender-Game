@@ -1,0 +1,12 @@
+.DrinkCard {
+    background-image: url("../../paper.jpg");
+    background-size: auto 100%;
+    min-height: 100px;
+    clear: both;
+    color: #222222;
+    text-align: center;
+}
+
+h2 {
+    text-decoration: underline;
+}
