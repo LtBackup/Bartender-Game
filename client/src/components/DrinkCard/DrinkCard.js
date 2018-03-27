@@ -31,7 +31,7 @@ const DrinkCard = (props) => (
           <h3>{e.measurement}</h3>
         </Col>
         <Col size="xs-4">
-          <h3>{props.counter[i]}</h3>
+          <h3>{props.counter[i].toFixed(2)}</h3>
         </Col>
       </Row>
     )}
