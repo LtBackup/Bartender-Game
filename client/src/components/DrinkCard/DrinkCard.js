@@ -28,10 +28,14 @@ const DrinkCard = (props) => (
           <h3>{e.ingredient}</h3>
         </Col>
         <Col size="xs-4">
-          <h3>{e.measurement}</h3>
+          <h3>
+          {e.measurement} oz
+          </h3>
         </Col>
         <Col size="xs-4">
-          <h3>{props.counter[i].toFixed(2)}</h3>
+          <h3 style={{ color: props.getColor(props.status[i])}}>
+          {props.counter[i].toFixed(2)} oz
+          </h3>
         </Col>
       </Row>
     )}

@@ -19,46 +19,68 @@ class Bar extends Component {
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
     counters: [0, 0, 0, 0],
-    drinkDone: false
+    drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
+    timer: 0,
+    getColor: (status) => {
+      if(status === 0){
+        return "blue";
+      }
+      else if( status === 1){
+        return "green";
+      }
+      else if (status === 2){
+        return "red";
+      }
+    }
   };
 
-  // incrementCounter = e => {
-  //   let keypress = e.key;
-  //   if (keypress > 0 && keypress < 5) {
-  //     let copy = [...this.state.keysPressed];
-  //     copy[keypress - 1] = true;
-  //     this.setState({ keysPressed: copy });
-  //     console.log(this.state.keysPressed);
-  //   }
-  // };
-
-  // stopCounting = e => {
-  //   let keyup = e.key;
-  //   if (keyup > 0 && keyup < 5) {
-  //     let copyStop = [...this.state.keysPresed];
-  //     copyStop[keyup - 1] = false;
-  //     this.setState({ keysPressed: copyStop });
-  //     console.log(this.state.keysPressed);
-  //   };
-  // }
+  reset = () => {
+    this.setState({ counters: [0, 0, 0, 0], drinkStatus: []});
+    this.getCocktail();
+  }
 
   toggleKeys = e => {
-    let keyup = e.key;
-    if (keyup > 0 && keyup < 5) {
+    let key = e.key;
+    if (key > 0 && key < 5) {
       let copyPress = [...this.state.keysPressed];
-      copyPress[keyup - 1] = e.type == 'keydown';
+      copyPress[key - 1] = e.type == 'keydown';
       this.setState({ keysPressed: copyPress });
+      if (this.state.keysPressed.every(function (i) { return !i; })
+        && this.state.drinkStatus.some(function (i) { return i === 2; })) {
+        alert("Proportions are off...Let's try again.");
+        this.reset();
+      }
+      else if (this.state.keysPressed.every(function (i) { return !i; })
+        && this.state.drinkStatus.every(function (i) { return i === 1; })) {
+        alert("Nice Pour! Let's mix another.");
+        //increment user stats
+        this.reset();
+      }
     };
   }
 
   count = () => {
     let copyCount = [...this.state.counters];
+    let copyStatus = [...this.state.drinkStatus];
     this.state.keysPressed.forEach((e, i) => {
       if (e) {
         copyCount[i] += .005;
         this.setState({ counters: copyCount });
       }
+      if (i < this.state.ingredients.length) {
+        if (this.state.counters[i] >= parseFloat(this.state.ingredients[i].measurement) - .1) {
+          //set color green
+          copyStatus[i] = 1;
+          this.setState({ drinkStatus: copyStatus });
+        }
+        if (this.state.counters[i] >= parseFloat(this.state.ingredients[i].measurement) + .1) {
+          //set color red
+          copyStatus[i] = 2;
+          this.setState({ drinkStatus: copyStatus });
+        }
+      }
     })
+    
     requestAnimationFrame(this.count);
   }
 
@@ -129,13 +151,15 @@ class Bar extends Component {
         validMeasurements.forEach((e, i) => {
           let position = e.indexOf("oz")
           if (e.toLowerCase().includes("oz") || e.toLowerCase().includes("cl") || e.toLowerCase().includes("tbsp")) {
-            const parsedMeasure = this.toOunce(e).toFixed(2) + " oz";
+            const parsedMeasure = this.toOunce(e).toFixed(2);
             validComponents.push({ ingredient: validIngredients[i], measurement: parsedMeasure });
+            this.state.drinkStatus.push(0);
           }
         })
         this.setState({ ingredients: validComponents });
       })
       .then(res => {
+        requestAnimationFrame(this.count);
         console.log(this.state.currentDrinkData);
         console.log(this.state.ingredients);
       })
@@ -145,7 +169,7 @@ class Bar extends Component {
   componentDidMount() {
     this.getCocktail();
     this.addListeners();
-    requestAnimationFrame(this.count);
+
   }
 
   render() {
@@ -157,7 +181,9 @@ class Bar extends Component {
             <DrinkCard
               name={this.state.currentDrinkData.strDrink}
               ingredients={this.state.ingredients}
-              counter={this.state.counters} />
+              counter={this.state.counters}
+              status={this.state.drinkStatus}
+              getColor={this.state.getColor} />
             <Canvas />
             <Serve />
             <Rack />

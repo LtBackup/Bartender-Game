@@ -13,6 +13,12 @@ const Nav = () => (
         <a href="/" className="navbar-brand">
           StirUp
         </a>
+        <a href="/bar" className="navbar-brand">
+          Bar
+        </a>
+        <a href="/trophies" className="navbar-brand">
+          Badges
+        </a>
       </div>
     </div>
   </nav>
