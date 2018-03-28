@@ -39,6 +39,12 @@ class Bar extends Component {
         alert("try again");
         this.reset();
       }
+      if (this.state.keysPress.every(function (i) { return !i; })
+        && this.state.drinkStatus.every(function (i) { return i === 1; })) {
+        alert("you win");
+        //increment user stats
+        this.reset();
+      }
     };
   }
 
