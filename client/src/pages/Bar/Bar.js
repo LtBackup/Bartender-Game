@@ -19,12 +19,23 @@ class Bar extends Component {
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
     counters: [0, 0, 0, 0],
-    drinkStatus: [0, 0, 0, 0], //0 = not filled, 1 = good fill, 2 = overfilled
-    drinkDone: false
+    drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
+    timer: 0,
+    getColor: (status) => {
+      if(status === 0){
+        return "blue";
+      }
+      else if( status === 1){
+        return "green";
+      }
+      else if (status === 2){
+        return "red";
+      }
+    }
   };
 
   reset = () => {
-    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [0, 0, 0, 0], drinkDone: false });
+    this.setState({ counters: [0, 0, 0, 0], drinkStatus: []});
     this.getCocktail();
   }
 
@@ -34,14 +45,14 @@ class Bar extends Component {
       let copyPress = [...this.state.keysPressed];
       copyPress[key - 1] = e.type == 'keydown';
       this.setState({ keysPressed: copyPress });
-      if (this.state.keysPress.every(function (i) { return !i; })
+      if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.some(function (i) { return i === 2; })) {
-        alert("try again");
+        alert("Proportions are off...Let's try again.");
         this.reset();
       }
-      if (this.state.keysPress.every(function (i) { return !i; })
+      else if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
-        alert("you win");
+        alert("Nice Pour! Let's mix another.");
         //increment user stats
         this.reset();
       }
@@ -56,18 +67,20 @@ class Bar extends Component {
         copyCount[i] += .005;
         this.setState({ counters: copyCount });
       }
-      if (counter[i] >= this.state.ingredients[i].measurement - .1) {
-        //set color green
-        statusCopy[i] = 1;
-        this.setState({ drinkStatus: statusCopy });
-      }
-      if (counter[i] >= this.state.ingredients[i].measurement + .1) {
-        //set color red
-        statusCopy[i] = 2;
-        this.setState({ drinkStatus: statusCopy });
+      if (i < this.state.ingredients.length) {
+        if (this.state.counters[i] >= parseFloat(this.state.ingredients[i].measurement) - .1) {
+          //set color green
+          copyStatus[i] = 1;
+          this.setState({ drinkStatus: copyStatus });
+        }
+        if (this.state.counters[i] >= parseFloat(this.state.ingredients[i].measurement) + .1) {
+          //set color red
+          copyStatus[i] = 2;
+          this.setState({ drinkStatus: copyStatus });
+        }
       }
     })
-
+    
     requestAnimationFrame(this.count);
   }
 
@@ -138,13 +151,15 @@ class Bar extends Component {
         validMeasurements.forEach((e, i) => {
           let position = e.indexOf("oz")
           if (e.toLowerCase().includes("oz") || e.toLowerCase().includes("cl") || e.toLowerCase().includes("tbsp")) {
-            const parsedMeasure = this.toOunce(e).toFixed(2) + " oz";
+            const parsedMeasure = this.toOunce(e).toFixed(2);
             validComponents.push({ ingredient: validIngredients[i], measurement: parsedMeasure });
+            this.state.drinkStatus.push(0);
           }
         })
         this.setState({ ingredients: validComponents });
       })
       .then(res => {
+        requestAnimationFrame(this.count);
         console.log(this.state.currentDrinkData);
         console.log(this.state.ingredients);
       })
@@ -154,7 +169,7 @@ class Bar extends Component {
   componentDidMount() {
     this.getCocktail();
     this.addListeners();
-    requestAnimationFrame(this.count);
+
   }
 
   render() {
@@ -166,7 +181,9 @@ class Bar extends Component {
             <DrinkCard
               name={this.state.currentDrinkData.strDrink}
               ingredients={this.state.ingredients}
-              counter={this.state.counters} />
+              counter={this.state.counters}
+              status={this.state.drinkStatus}
+              getColor={this.state.getColor} />
             <Canvas />
             <Serve />
             <Rack />
