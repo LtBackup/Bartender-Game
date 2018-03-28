@@ -19,46 +19,49 @@ class Bar extends Component {
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
     counters: [0, 0, 0, 0],
+    drinkStatus: [0, 0, 0, 0], //0 = not filled, 1 = good fill, 2 = overfilled
     drinkDone: false
   };
 
-  // incrementCounter = e => {
-  //   let keypress = e.key;
-  //   if (keypress > 0 && keypress < 5) {
-  //     let copy = [...this.state.keysPressed];
-  //     copy[keypress - 1] = true;
-  //     this.setState({ keysPressed: copy });
-  //     console.log(this.state.keysPressed);
-  //   }
-  // };
-
-  // stopCounting = e => {
-  //   let keyup = e.key;
-  //   if (keyup > 0 && keyup < 5) {
-  //     let copyStop = [...this.state.keysPresed];
-  //     copyStop[keyup - 1] = false;
-  //     this.setState({ keysPressed: copyStop });
-  //     console.log(this.state.keysPressed);
-  //   };
-  // }
+  reset = () => {
+    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [0, 0, 0, 0], drinkDone: false });
+    this.getCocktail();
+  }
 
   toggleKeys = e => {
-    let keyup = e.key;
-    if (keyup > 0 && keyup < 5) {
+    let key = e.key;
+    if (key > 0 && key < 5) {
       let copyPress = [...this.state.keysPressed];
-      copyPress[keyup - 1] = e.type == 'keydown';
+      copyPress[key - 1] = e.type == 'keydown';
       this.setState({ keysPressed: copyPress });
+      if (this.state.keysPress.every(function (i) { return !i; })
+        && this.state.drinkStatus.some(function (i) { return i === 2; })) {
+        alert("try again");
+        this.reset();
+      }
     };
   }
 
   count = () => {
     let copyCount = [...this.state.counters];
+    let copyStatus = [...this.state.drinkStatus];
     this.state.keysPressed.forEach((e, i) => {
       if (e) {
         copyCount[i] += .005;
         this.setState({ counters: copyCount });
       }
+      if (counter[i] >= this.state.ingredients[i].measurement - .1) {
+        //set color green
+        statusCopy[i] = 1;
+        this.setState({ drinkStatus: statusCopy });
+      }
+      if (counter[i] >= this.state.ingredients[i].measurement + .1) {
+        //set color red
+        statusCopy[i] = 2;
+        this.setState({ drinkStatus: statusCopy });
+      }
     })
+
     requestAnimationFrame(this.count);
   }
 
