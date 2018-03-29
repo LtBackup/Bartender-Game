@@ -11,7 +11,7 @@ module.exports = {
   // },
   findByUsername: function(req, res) {
     db.Bartender
-      .findByUsername(req.params.username)
+      .findOne({ username: req.params.username })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

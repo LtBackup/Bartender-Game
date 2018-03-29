@@ -3,20 +3,20 @@ import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootst
 
 const Login = (props) => (
     <div className="Login">
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
+        <form onSubmit={props.handleLogin}>
+          <FormGroup controlId="username" bsSize="large">
+            <ControlLabel>Username</ControlLabel>
             <FormControl
               autoFocus
-              type="email"
-              value={props.email}
+              //type="email"
+              //value={props.username}
               onChange={props.handleChange}
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
             <ControlLabel>Password</ControlLabel>
             <FormControl
-              value={props.password}
+              //value={props.password}
               onChange={props.handleChange}
               type="password"
             />
