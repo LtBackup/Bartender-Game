@@ -1,18 +1,19 @@
 import axios from "axios";
 
+
 export default {
   // Get a user's info
-  getUser: function() {
-    return axios.get("/api/");
+  getUser: function(username) {
+    return axios.get("/api/" + username);
   },
   // Gets a classic cocktail
-  getClassic: function(id) {
-    return axios.get("/api/classic");
+  createUser: function(credentials) {
+    return axios.post("/api/", credentials);
   },
   
   // Saves a book to the database
-  updateMastery: function(cocktail) {
-    return axios.post("/api/cocktails", cocktail);
+  updateMastery: function(username, cocktail) {
+    return axios.post("/api/" + username, cocktail);
   }
   // // Deletes the drink with the given name
   // deleteMastery: function(id) {
