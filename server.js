@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
-const passport = require("./config/passport");
+//const passport = require("./config/passport");
 
 const PORT = process.env.PORT || 3001;
 
@@ -15,18 +15,15 @@ app.use(express.static("client/build"));
 // Add routes, both API and view
 app.use(routes);
 //passport
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://LtBackup:hottamale@ds123129.mlab.com:23129/heroku_3g8np357",
-  {
-    useMongoClient: true
-  }
+  process.env.MONGODB_URI || "mongodb://LtBackup:hottamale@ds123129.mlab.com:23129/heroku_3g8np357"
 );
 
 // Start the API server

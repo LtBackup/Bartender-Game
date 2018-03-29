@@ -1,19 +1,20 @@
 import axios from "axios";
-var passport = require("../config/passport");
-
+//var passport = require("../config/passport");
+//var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 export default {
 
   // Get a user's info
-  getUser: function(username) {
-    return axios.get("/api/" + username);
+  getUser: function(creds) {
+    console.log(creds.username);
+    return axios.get("/api/" + creds.username);
   },
   // Gets a classic cocktail
   createUser: function(credentials) {
-    //return axios.post("/api/", credentials);
-    return axio.post('/',
-    passport.authenticate('local', { successRedirect: '/bar', failureRedirect: '/', failureFlash: true })
-);
+    return axios.post("/api/", credentials);
+    //return axio.post('/',
+    //passport.authenticate('local', { successRedirect: '/bar', failureRedirect: '/', failureFlash: true })
+    //);
   },
   
   // Saves a book to the database

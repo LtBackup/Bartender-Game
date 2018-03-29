@@ -15,19 +15,49 @@ class Start extends Component {
     state = {
         existingUser: true,
         loggedIn: false,
-        email: "",
+        username: "",
         password: ""
     };
 
     componentDidMount() {
     }
 
-    toggleExisting = () => {
-        this.setState({ existingUser: !this.state.existingUser})
+    toggleExisting = (event) => {
+        event.preventDefault();
+        this.setState({ existingUser: !this.state.existingUser});
     }
   
+    handleLogin = event => {
+        event.preventDefault();
+        if (this.state.username && this.state.password) {
+          DBAPI.getUser({
+            username: this.state.username,
+            password: this.state.password
+          })
+            .then(res => this.setState({loggedIn: true}))
+            .then(res => console.log("logged in?", this.state.loggedIn))
+            .then(res => res.redirect("/bar"))
+            .catch(err => console.log(err));
+        }
+      };
+
+      handleNew = event => {
+        event.preventDefault();
+        if (this.state.username && this.state.password) {
+          DBAPI.createUser({
+            username: this.state.username,
+            password: this.state.password
+          })
+            .then(res => this.setState({loggedIn: true}))
+            .then(res => console.log("new user?", this.state.loggedIn))
+            .then(res => res.redirect("/bar"))
+            .catch(err => console.log(err));
+        }
+      };
+
     validateForm() {
-      return this.state.email.length > 0 && this.state.password.length > 0;
+      return this.state.email.length > 4 && this.state.password.length > 4;
+      console.log("make login names longer");
     }
   
     handleChange = event => {
@@ -36,9 +66,9 @@ class Start extends Component {
       });
     }
   
-    handleSubmit = event => {
-      event.preventDefault();
-    }
+    // handleSubmit = event => {
+    //   event.preventDefault();
+    // }
 
     render() {
         return (
@@ -46,10 +76,23 @@ class Start extends Component {
                 <Row>
                     <Jumbotron>
                         <h1>Let's Mix it Up!</h1>
-                    </Jumbotron>
-                    {this.state.existingUser?
-                    <Login toggle={this.state} validateForm={this.validateForm} /> :
-                    <SignUp toggle={this.state} />}
+                        {this.state.existingUser?
+                        <Login toggle={this.toggleExisting}
+                        validateForm={this.validateForm}
+                        handleChange={this.handleChange}
+                        handleLogin={this.handleLogin}
+                        /> :
+                        <SignUp toggle={this.toggleExisting}
+                        validateForm={this.validateForm}
+                        handleChange={this.handleChange}
+                        handleNew={this.handleNew}
+                        />}
+                        <button onClick={this.toggleExisting}>
+                        {this.state.existingUser? 
+                        "Click here to create a new account":
+                        "Click here to use an existing account"}
+                        </button>
+                     </Jumbotron>
                 </Row>
             </Grid>
         );
