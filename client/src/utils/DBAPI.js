@@ -5,9 +5,9 @@ import axios from "axios";
 export default {
 
   // Get a user's info
-  getUser: function(creds) {
-    console.log(creds.username);
-    return axios.get("/api/" + creds.username);
+  getUser: function(credentials) {
+    console.log(credentials.username);
+    return axios.get("/api/" + credentials.username);
   },
   // Gets a classic cocktail
   createUser: function(credentials) {
