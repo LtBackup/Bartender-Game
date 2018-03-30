@@ -4,16 +4,19 @@ const bcrypt = require('bcrypt-nodejs'),
     SALT_WORK_FACTOR = 10;
 
 const bartenderSchema = new Schema({
-  username: { type: String,
+  username: {
+    type: String,
+    trim: true,
+    lowercase: true,
     required: "Username is Required",
     unique: true },
   password: { type: String,
     required: "Password is Required",
     validate: [
       function(input) {
-        return input.length >= 6;
+        return input.length >= 5;
       },
-    "Password needs to be at least 6 characters long"
+    "Password needs to be at least 5 characters long"
   ] },
   classicsMastered: { type: Boolean, default: false },
   //object to contain {name: "drinkName", timesMade: 1}
@@ -25,7 +28,7 @@ const bartenderSchema = new Schema({
 });
 
 bartenderSchema.pre('save', function(next) {
-  var user = this;
+  let user = this;
 
   // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next();
@@ -35,7 +38,7 @@ bartenderSchema.pre('save', function(next) {
       if (err) return next(err);
 
       // hash the password using our new salt
-      bcrypt.hash(user.password, salt, function(err, hash) {
+      bcrypt.hash(user.password, salt, null, function(err, hash) {
           if (err) return next(err);
 
           // override the cleartext password with the hashed one

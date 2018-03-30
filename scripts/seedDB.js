@@ -5,10 +5,7 @@ mongoose.Promise = global.Promise;
 // This file empties the Books collection and inserts the books below
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://LtBackup:hottamale@ds123129.mlab.com:23129/heroku_3g8np357",
-  {
-    useMongoClient: true
-  }
+  process.env.MONGODB_URI || "mongodb://LtBackup:hottamale@ds123129.mlab.com:23129/heroku_3g8np357"
 );
 
 const bartenderSeed = [
