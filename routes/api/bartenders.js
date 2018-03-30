@@ -3,7 +3,6 @@ const bartendersController = require("../../controllers/bartendersController");
 
 // Matches with "/api/bartenders"
 router.route("/login")
-  .get(bartendersController.getAll)
   .post(bartendersController.login);
 
 router.route("/create")

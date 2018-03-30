@@ -2,12 +2,12 @@ const db = require("../models");
 
 //Defining methods for the bartendersController
 module.exports = {
-  getAll: function(req, res) {
-    db.Bartender
-      .find({})
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
+  // getAll: function(req, res) {
+  //   db.Bartender
+  //     .find({})
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // },
   login: function(req, res) {
     console.log(req.body.username);
     db.Bartender
@@ -28,8 +28,9 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   update: function(req, res) {
+    const drinkName = "inProgress." + req.body.drinkName;
     db.Bartender
-      .findOneAndUpdate({ username: req.params.username }, req.body)
+      .findOneAndUpdate({ username: req.params.username }, { $inc: { drinkName: 1 }})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }

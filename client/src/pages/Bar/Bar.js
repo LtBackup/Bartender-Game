@@ -6,6 +6,7 @@ import Serve from "../../components/Serve";
 import Rack from "../../components/Rack";
 // import { Container } from "../../components/Grid";
 import { Col, Row, Grid } from "react-bootstrap";
+import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
@@ -15,6 +16,7 @@ import './Bar.css';
 
 class Bar extends Component {
   state = {
+    currentUser: "bobby",
     currentDrinkData: {},
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
@@ -53,6 +55,8 @@ class Bar extends Component {
       else if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
         alert("Nice Pour! Let's mix another.");
+        
+        DBAPI.updateMastery(this.currentUser, this.state.currentDrinkData.strDrink);
         //increment user stats
         this.reset();
       }
