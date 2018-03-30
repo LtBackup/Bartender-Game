@@ -2,13 +2,19 @@ const db = require("../models");
 
 //Defining methods for the bartendersController
 module.exports = {
-  // findAll: function(req, res) {
-  //   db.Bartender
-  //     .find(req.query)
-  //     .sort({ date: -1 })
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // },
+  getAll: function(req, res) {
+    db.Bartender
+      .find({})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  login: function(req, res) {
+    console.log(req.body.username);
+    db.Bartender
+      .findOne({ username: req.body.username })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   findByUsername: function(req, res) {
     db.Bartender
       .findOne({ username: req.params.username })
@@ -26,12 +32,12 @@ module.exports = {
       .findOneAndUpdate({ username: req.params.username }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
-  },
-  remove: function(req, res) {
-    db.Bartender
-      .findById({ username: req.params.username })
-      .then(dbModel => dbModel.remove())
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-   }
+  }
+  // remove: function(req, res) {
+  //   db.Bartender
+  //     .findById({ username: req.params.username })
+  //     .then(dbModel => dbModel.remove())
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  //  }
  };

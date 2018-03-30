@@ -5,13 +5,24 @@ import axios from "axios";
 export default {
 
   // Get a user's info
-  getUser: function(credentials) {
+  login: function(credentials) {
     console.log(credentials.username);
-    return axios.get("/api/" + credentials.username);
+    return axios.post("/api/bartenders/login", credentials);
   },
+
+  getAll: function(credentials) {
+    console.log(credentials.username);
+    return axios.get("/api/bartenders/login");
+  },
+  
+  // getUser: function(credentials) {
+  //   console.log(credentials.username);
+  //   return axios.get("/api/bartenders/" + credentials.username);
+  // },
   // Gets a classic cocktail
   createUser: function(credentials) {
-    return axios.post("/api/", credentials);
+    console.log(credentials.username);
+    return axios.post("/api/bartenders/create", credentials);
     //return axio.post('/',
     //passport.authenticate('local', { successRedirect: '/bar', failureRedirect: '/', failureFlash: true })
     //);
@@ -19,7 +30,7 @@ export default {
   
   // Saves a book to the database
   updateMastery: function(username, cocktail) {
-    return axios.post("/api/" + username, cocktail);
+    return axios.put("/api/bartenders/" + username, cocktail);
   }
   // // Deletes the drink with the given name
   // deleteMastery: function(id) {

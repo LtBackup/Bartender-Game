@@ -30,13 +30,13 @@ class Start extends Component {
     handleLogin = event => {
         event.preventDefault();
         if (this.state.username && this.state.password) {
-          DBAPI.getUser({
+          DBAPI.login({
             username: this.state.username,
             password: this.state.password
           })
             .then(res => this.setState({loggedIn: true}))
             .then(res => console.log("logged in?", this.state.loggedIn))
-            .then(res => res.redirect("/bar"))
+            //.then(res => res.redirect("/bar"))
             .catch(err => console.log(err));
         }
       };
@@ -50,7 +50,7 @@ class Start extends Component {
           })
             .then(res => this.setState({loggedIn: true}))
             .then(res => console.log("new user?", this.state.loggedIn))
-            .then(res => res.redirect("/bar"))
+            //.then(res => res.redirect("/bar"))
             .catch(err => console.log(err));
         }
       };
@@ -62,7 +62,7 @@ class Start extends Component {
   
     handleChange = event => {
       this.setState({
-        [event.target.id]: event.target.value
+        [event.target.id]: event.target.value.trim()
       });
     }
   

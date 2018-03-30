@@ -21,9 +21,13 @@ app.use(routes);
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
+
+const DEV = "mongodb://localhost/reactreadinglist";
+const PRODUCTION = "mongodb://LtBackup:hottamale@ds123129.mlab.com:23129/heroku_3g8np357";
+
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://LtBackup:hottamale@ds123129.mlab.com:23129/heroku_3g8np357"
+  process.env.MONGODB_URI || PRODUCTION
 );
 
 // Start the API server
