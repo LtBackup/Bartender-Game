@@ -20,11 +20,11 @@ const bartenderSchema = new Schema({
   ] },
   classicsMastered: { type: Boolean, default: false },
   //object to contain {name: "drinkName", timesMade: 1}
-  inProgress: [Object],
+  inProgress: [],
   //hashtable to store drink name as the key, and boolean for mastery
   //[{type: Schema.Types.Mixed, default: {}}]
   //object to contain {name: "drinkName", timesMade: 1}
-  drinksMastered: [Object]
+  drinksMastered: []
 });
 
 bartenderSchema.pre('save', function(next) {
@@ -55,6 +55,6 @@ bartenderSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
-const Bartender = mongoose.model("Bartender", bartenderSchema);
+const Bartender = mongoose.model("Bartender", bartenderSchema, "bartenders");
 
 module.exports = Bartender;

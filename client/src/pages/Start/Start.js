@@ -13,48 +13,25 @@ import './Start.css';
  
 
 class Start extends Component {
-    state = {
+  constructor(props) {
+    console.log(props);
+    super(props);
+    this.state = {
         existingUser: true,
         loggedIn: false,
         username: "",
         password: ""
     };
+  }
 
     componentDidMount() {
+      
     }
 
     toggleExisting = (event) => {
         event.preventDefault();
         this.setState({ existingUser: !this.state.existingUser});
     }
-  
-    handleLogin = event => {
-        event.preventDefault();
-        if (this.state.username && this.state.password) {
-          DBAPI.login({
-            username: this.state.username,
-            password: this.state.password
-          })
-            .then(res => this.setState({loggedIn: true}))
-            .then(res => console.log("logged in?", this.state.loggedIn))
-            .then(res => res.redirect("/bar"))
-            .catch(err => console.log(err));
-        }
-      };
-
-      handleNew = event => {
-        event.preventDefault();
-        if (this.state.username && this.state.password) {
-          DBAPI.createUser({
-            username: this.state.username,
-            password: this.state.password
-          })
-            .then(res => this.setState({loggedIn: true}))
-            .then(res => console.log("new user?", this.state.loggedIn))
-            .then(res => res.redirect("/bar"))
-            .catch(err => console.log(err));
-        }
-      };
 
     validateForm() {
       return this.state.username.length > 4 && this.state.password.length > 4;
@@ -85,12 +62,12 @@ class Start extends Component {
                         <Login toggle={this.toggleExisting}
                         validateForm={this.validateForm}
                         handleChange={this.handleChange}
-                        handleLogin={this.handleLogin}
+                        handleLogin={this.props.handleLogin}
                         /> :
                         <SignUp toggle={this.toggleExisting}
                         validateForm={this.validateForm}
                         handleChange={this.handleChange}
-                        handleNew={this.handleNew}
+                        handleNew={this.props.handleNew}
                         />}
                         <Button onClick={this.toggleExisting}>
                         {this.state.existingUser? 

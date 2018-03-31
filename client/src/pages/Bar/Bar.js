@@ -16,7 +16,7 @@ import './Bar.css';
 
 class Bar extends Component {
   state = {
-    currentUser: "bobby",
+    username: "bobby",
     currentDrinkData: {},
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
@@ -56,7 +56,7 @@ class Bar extends Component {
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
         alert("Nice Pour! Let's mix another.");
         
-        DBAPI.updateMastery(this.currentUser, this.state.currentDrinkData.strDrink);
+        DBAPI.updateMastery(this.state.username, this.state.currentDrinkData.strDrink);
         //increment user stats
         this.reset();
       }
@@ -123,6 +123,8 @@ class Bar extends Component {
   }
 
   addListeners = () => {
+    document.removeEventListener("keydown", this.toggleKeys);
+    document.removeEventListener("keyup", this.toggleKeys);
     document.addEventListener("keydown", this.toggleKeys);
     document.addEventListener("keyup", this.toggleKeys);
   }
@@ -173,7 +175,7 @@ class Bar extends Component {
   componentDidMount() {
     this.getCocktail();
     this.addListeners();
-
+    console.log(this.state.username);
   }
 
   render() {

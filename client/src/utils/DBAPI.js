@@ -15,11 +15,7 @@ export default {
     return axios.get("/api/bartenders/login");
   },
   
-  // getUser: function(credentials) {
-  //   console.log(credentials.username);
-  //   return axios.get("/api/bartenders/" + credentials.username);
-  // },
-  // Gets a classic cocktail
+
   createUser: function(credentials) {
     console.log(credentials.username);
     return axios.post("/api/bartenders/create", credentials);
@@ -28,9 +24,10 @@ export default {
     //);
   },
   
-  // Saves a book to the database
   updateMastery: function(username, cocktail) {
-    return axios.put("/api/bartenders/" + username, cocktail);
+    console.log("username", username);
+    console.log("cockt" ,cocktail);
+    return axios.put("/api/bartenders/" + username, {drinkName: cocktail} );
   }
   // // Deletes the drink with the given name
   // deleteMastery: function(id) {

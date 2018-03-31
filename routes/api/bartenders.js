@@ -6,10 +6,10 @@ router.route("/login")
   .post(bartendersController.login);
 
 router.route("/create")
-  .get(bartendersController.getAll)
+  // .get(bartendersController.getAll)
   .post(bartendersController.create);
 
-// Matches with "/api/bartenders/:id"
+// Matches with "/api/bartenders/:username"
 router.route("/:username")
   .get(bartendersController.findByUsername)
   .put(bartendersController.update);
