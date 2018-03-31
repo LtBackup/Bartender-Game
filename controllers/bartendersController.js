@@ -8,57 +8,48 @@ module.exports = {
   //     .then(dbModel => res.json(dbModel))
   //     .catch(err => res.status(422).json(err));
   // },
-  login: function(req, res) {
+  login: function (req, res) {
     console.log(req.body.username);
     db.Bartender
       .findOne({ username: req.body.username })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  findByUsername: function(req, res) {
+  findByUsername: function (req, res) {
     db.Bartender
       .findOne({ username: req.params.username })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  create: function(req, res) {
+  create: function (req, res) {
     db.Bartender
       .create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  update: function(req, res) {
+  update: function (req, res) {
     //const drinkQuery = req.body.drinkName;
     console.log("==============================");
     console.log("req.body", req.body);
     console.log("req.body.drinkname", req.body.drinkName);
     console.log("req.params.username", req.params.username);
 
-    let drinkQuery = "Manhattan";
+    let drinkQuery = req.body.drinkName;
     db.Bartender
-      .findOneAndUpdate({ username: req.params.username, 'inProgress.drinkName': drinkQuery},
-      {'$inc': {'inProgress.$.timesMade' : 1}})
-      //.findOne({ username: req.params.username, 'inProgress.drinkName': drinkQuery})
-          // inProgress: { $elemMatch: { drinkName: drinkQuery}}}
-        // {$inc: {inProgress: {drinkName: drinkQuery, timesMade: 1}}}
-      // .then(res => {
-      //   console.log(res);
-      //   if(!res){
-      //     //create entry
-      //   } else {
-      //   let drinkPick = res.inProgress.filter(drink => drink.drinkName === drinkQuery);
-      //   drinkPick.timesMade++;
-      //   console.log(drinkPick);
-      //   res.findOneAndUpdate({ username: req.params.username, inProgress: {$elemMatch: { drinkName: drinkQuery}}
-      //   //($elemMatch: { drinkName: drinkQuery} })
-      // }
-      // })
-      // .then(res => {
-      //   console.log(res);
-      //   let drinkPick = res.inProgress.filter(drink => drink.drinkName === drinkQuery);
-      //   drinkPick.timesMade++;
-      //   console.log(drinkPick);
-      // } )
+      .findOneAndUpdate({ username: req.params.username, 'inProgress.drinkName': drinkQuery },
+        { '$inc': { 'inProgress.$.timesMade': 1 } }
+      )
+      .then(res => {
+        console.log(res);
+        if (!res) {
+          db.Bartender
+            .findOneAndUpdate({ username: req.params.username },
+              {
+                '$push': { 'inProgress': { 'drinkName': req.body.drinkName, 'timesMade': 1 } }
+              }
+            );
+        }
+      })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }
@@ -69,4 +60,4 @@ module.exports = {
   //     .then(dbModel => res.json(dbModel))
   //     .catch(err => res.status(422).json(err));
   //  }
- };
+};

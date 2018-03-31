@@ -39,6 +39,7 @@ class Bar extends Component {
   reset = () => {
     this.setState({ counters: [0, 0, 0, 0], drinkStatus: []});
     this.getCocktail();
+    cancelAnimationFrame(this.count);
   }
 
   toggleKeys = e => {
