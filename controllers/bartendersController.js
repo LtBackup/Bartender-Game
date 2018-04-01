@@ -28,36 +28,30 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   update: function (req, res) {
-    //const drinkQuery = req.body.drinkName;
     console.log("==============================");
     console.log("req.body", req.body);
     console.log("req.body.drinkname", req.body.drinkName);
     console.log("req.params.username", req.params.username);
-
+    let user = req.params.username;
     let drinkQuery = req.body.drinkName;
-    db.Bartender
-      .findOneAndUpdate({ username: req.params.username, 'inProgress.drinkName': drinkQuery },
-        { '$inc': { 'inProgress.$.timesMade': 1 } }
-      )
-      .then(res => {
-        console.log(res);
-        if (!res) {
+    let newDrink = { drinkName: drinkQuery, timesMade: 1 };
+    db.Bartender.findOne({ 'username': user, 'inProgress.drinkName': drinkQuery })
+      .then(dbModel => {
+        console.log(dbModel);
+        if (dbModel) {
           db.Bartender
-            .findOneAndUpdate({ username: req.params.username },
-              {
-                '$push': { 'inProgress': { 'drinkName': req.body.drinkName, 'timesMade': 1 } }
-              }
-            );
+            .findOneAndUpdate({ 'username': user, 'inProgress.drinkName': drinkQuery },
+              { '$inc': { 'inProgress.$.timesMade': 1 } })
+            .then(dbModel => { res.json(dbModel) })
+            .catch(err => res.status(422).json(err));
+        } else {
+          console.log("new drink");
+          db.Bartender
+            .findOneAndUpdate({ 'username': user }, { '$push': { 'inProgress': newDrink } })
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
         }
       })
-      .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }
-  // remove: function(req, res) {
-  //   db.Bartender
-  //     .findById({ username: req.params.username })
-  //     .then(dbModel => dbModel.remove())
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  //  }
 };

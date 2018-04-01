@@ -21,9 +21,9 @@ const bartenderSchema = new Schema({
   classicsMastered: { type: Boolean, default: false },
   //object to contain {name: "drinkName", timesMade: 1}
   inProgress: [{
-    drinkName : String,
-    timesMade : Number
-     }],
+    drinkName: { type: String, default: ""},
+    timesMade: {type: Number, default: 1}
+  }],
   //hashtable to store drink name as the key, and boolean for mastery
   //[{type: Schema.Types.Mixed, default: {}}]
   //object to contain {name: "drinkName", timesMade: 1}
