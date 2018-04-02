@@ -3,7 +3,11 @@ import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootst
 
 const Login = (props) => (
     <div className="Login">
-        <form onSubmit={props.handleLogin}>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          props.setCredentials(props.username, props.password);
+        }
+        }>
           <FormGroup controlId="username" bsSize="large">
             <ControlLabel>Username</ControlLabel>
             <FormControl

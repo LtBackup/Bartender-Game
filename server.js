@@ -24,8 +24,9 @@ app.use(passport.session());
 // load passport strategies
 const LoginStrategy = require('./passport/loginStrategy');
 const SignUpStrategy = require('./passport/signUpStrategy');
-passport.use('./passport/loginStrategy', LoginStrategy);
-passport.use('./passport/signUpStrategy', SignUpStrategy);
+passport.use('loginStrategy', LoginStrategy);
+passport.use('signUpStrategy', SignUpStrategy);
+console.log("passport", passport);
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;

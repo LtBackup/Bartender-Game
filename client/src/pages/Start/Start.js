@@ -14,7 +14,7 @@ import './Start.css';
 
 class Start extends Component {
   constructor(props) {
-    console.log(props);
+    console.log("props", props);
     super(props);
     this.state = {
         existingUser: true,
@@ -63,11 +63,17 @@ class Start extends Component {
                         validateForm={this.validateForm}
                         handleChange={this.handleChange}
                         handleLogin={this.props.handleLogin}
+                        username={this.state.username}
+                        password={this.state.password}
+                        setCredentials={this.props.setCredentials}
                         /> :
                         <SignUp toggle={this.toggleExisting}
                         validateForm={this.validateForm}
                         handleChange={this.handleChange}
                         handleNew={this.props.handleNew}
+                        username={this.state.username}
+                        password={this.state.password}
+                        setCredentials={this.props.setCredentials}
                         />}
                         <Button onClick={this.toggleExisting}>
                         {this.state.existingUser? 
