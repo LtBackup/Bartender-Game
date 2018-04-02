@@ -53,7 +53,6 @@ module.exports = {
     let newDrink = { drinkName: drinkQuery, timesMade: 1 };
     db.Bartender.findOne({ 'username': user, 'inProgress.drinkName': drinkQuery })
       .then(dbModel => {
-        //console.log(dbModel);
         if (dbModel) {
           db.Bartender
             .findOneAndUpdate({ 'username': user, 'inProgress.drinkName': drinkQuery },
@@ -61,7 +60,6 @@ module.exports = {
             .then(dbModel => { res.json(dbModel) })
             .catch(err => res.status(422).json(err));
         } else {
-          //console.log("new drink");
           db.Bartender
             .findOneAndUpdate({ 'username': user }, { '$push': { 'inProgress': newDrink } })
             .then(dbModel => res.json(dbModel))

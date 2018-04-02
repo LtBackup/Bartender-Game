@@ -48,14 +48,20 @@ class App extends Component {
     })
   }
 
-  handleNew = event => {
-    event.preventDefault();
+  handleNew = () => {
+    let currUser = this.state.username;
     if (this.state.username && this.state.password) {
       DBAPI.createUser({
         username: this.state.username,
         password: this.state.password
       })
-        .then(res => this.setState({ loggedIn: true, password: "" }))
+        .then(res => {
+          this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
+            console.log("set username", this.state.username);
+            console.log("set password", this.state.password);
+          }
+          )
+        })
         .then(res => console.log("new user?", this.state.loggedIn))
         .then(res => res.redirect("/bar"))
         .catch(err => console.log(err));
