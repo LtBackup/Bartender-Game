@@ -14,11 +14,6 @@ const Nav = (props) => (
         <a href="/" className="navbar-brand">
           StirUp
         </a>
-        <Link 
-        to={{ 
-        pathname: '/bar', 
-        state: props.username 
-        }}>Bar</Link>
         <a href="/bar" className="navbar-brand">
           Bar
         </a>

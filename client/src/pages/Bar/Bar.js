@@ -70,7 +70,7 @@ class Bar extends Component {
     let copyStatus = [...this.state.drinkStatus];
     this.state.keysPressed.forEach((e, i) => {
       if (e) {
-        copyCount[i] += .005;
+        copyCount[i] += .01;
         this.setState({ counters: copyCount });
       }
       if (i < this.state.ingredients.length) {
