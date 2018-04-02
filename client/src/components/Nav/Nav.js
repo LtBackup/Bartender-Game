@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import "./Nav.css";
 
-const Nav = () => (
+const Nav = (props) => (
   <nav className="navbar navbar-top">
     <div className="container-fluid">
       <div className="navbar-header">
@@ -13,6 +14,11 @@ const Nav = () => (
         <a href="/" className="navbar-brand">
           StirUp
         </a>
+        <Link 
+        to={{ 
+        pathname: '/bar', 
+        state: props.username 
+        }}>Bar</Link>
         <a href="/bar" className="navbar-brand">
           Bar
         </a>

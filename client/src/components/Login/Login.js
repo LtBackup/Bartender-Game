@@ -22,6 +22,7 @@ const Login = (props) => (
             />
           </FormGroup>
           <Button
+            bsStyle="primary"
             block
             bsSize="large"
             disabled={!props.validateForm}
