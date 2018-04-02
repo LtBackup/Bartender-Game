@@ -7,8 +7,10 @@ import Nav from "./components/Nav";
 import CocktailAPI from "./utils/CocktailAPI.js";
 import DBAPI from "./utils/DBAPI.js";
 
+// pass the authenticaion checker middleware
 class App extends Component {
   state = {
+    isAuthenticated: "",
     username: "",
     password: ""
   };
