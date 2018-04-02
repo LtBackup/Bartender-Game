@@ -17,7 +17,7 @@ class App extends Component {
   };
 
   setCredentials = (user, pass) => {
-    this.setState({username: user, password: pass}, function () {
+    this.setState({ username: user, password: pass }, function () {
       console.log("set username", this.state.username);
       console.log("set password", this.state.password);
       this.handleLogin();
@@ -35,15 +35,18 @@ class App extends Component {
         username: this.state.username,
         password: this.state.password
       })
-      .then(function(data) {
-        console.log("going to replace the loaded screen");
+        .then(function (data) {
+          console.log("going to replace the loaded screen");
 
-      }).catch(function(err) {
-        console.log(err);
-      });
+        }).catch(function (err) {
+          console.log(err);
+        });
     }
-    this.setState({ isAuthenticated: true, loggedUser: currUser });
-  };
+    this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
+      console.log("set username", this.state.username);
+      console.log("set password", this.state.password);
+    })
+  }
 
   handleNew = event => {
     event.preventDefault();
@@ -52,7 +55,7 @@ class App extends Component {
         username: this.state.username,
         password: this.state.password
       })
-        .then(res => this.setState({loggedIn: true, password: ""}))
+        .then(res => this.setState({ loggedIn: true, password: "" }))
         .then(res => console.log("new user?", this.state.loggedIn))
         .then(res => res.redirect("/bar"))
         .catch(err => console.log(err));
@@ -61,28 +64,28 @@ class App extends Component {
 
   render(props) {
     return (
-    <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" render={(props) =>
-            (<Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials}/>)}
+      <Router>
+        <div>
+          <Nav />
+          <Switch>
+            <Route exact path="/" render={(props) =>
+              (<Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials} />)}
             />
-          <Route exact path="/bar" render={(props) => (
-            this.state.loggedUser ? 
-            <Bar {...props} loggedUser={this.state.loggedUser}/>: 
-            <Redirect to="/" />
+            <Route exact path="/bar" render={(props) => (
+              this.state.loggedUser ?
+                <Bar {...props} loggedUser={this.state.loggedUser} /> :
+                <Redirect to="/" />
             )}
-          />
-          <Route exact path="/trophies" render={(props) => (
-            this.state.loggedUser ? 
-            (<Trophies {...props} loggedUser={this.state.loggedUser}/>): 
-            <Redirect to="/" />
+            />
+            <Route exact path="/trophies" render={(props) => (
+              this.state.loggedUser ?
+                (<Trophies {...props} loggedUser={this.state.loggedUser} />) :
+                <Redirect to="/" />
             )}
-          />
-        </Switch>
-      </div>
-    </Router>
+            />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
