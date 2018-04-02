@@ -184,7 +184,6 @@ componentDidMount() {
 }
 
 render() {
-  //console.log(this.state.ingredients);
   return (
     <Grid fluid>
       <Row>
