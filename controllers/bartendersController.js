@@ -20,12 +20,12 @@ module.exports = {
   //     failureFlash : true
   // });
   },
-  findByUsername: function (req, res) {
-    db.Bartender
-      .findOne({ username: req.params.username })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
+  // findByUsername: function (req, res) {
+  //   db.Bartender
+  //     .findOne({ username: req.params.username })
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // },
   create: function (req, res, next) {
     // db.Bartender
     //   .create(req.body)
@@ -36,9 +36,7 @@ module.exports = {
     //     console.log(err);
     //   }
       console.log("trying to send back new bar!");
-      return res.redirect("/bar")
-    }
-    );
+      return res.redirect("/bar");
   },
   update: function (req, res) {
     // console.log("==============================");

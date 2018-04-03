@@ -4,7 +4,7 @@ const passport = require("passport");
 
 // Matches with "/api/bartenders"
 router.route("/login")
-  .post(passport.authenticate('local-signin', isLoggedIn, 
+  .post(passport.authenticate('local-signin', 
   {successRedirect: '/bar', failureRedirect: '/'}
   // (req, res) => {
   //   console.log("in the /login route", req);
@@ -23,14 +23,14 @@ router.route("/:username")
   //.get(bartendersController.findByUsername)
   .put(bartendersController.update);
 
-function isLoggedIn(req, res, next) {
+// function isLoggedIn(req, res, next) {
+//   console.log(req);
+//   if (req.isAuthenticated())
 
-  if (req.isAuthenticated())
+//     return next();
 
-    return next();
+//   res.redirect('/');
 
-  res.redirect('/');
-
-}
+// }
 
 module.exports = router;

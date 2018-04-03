@@ -48,7 +48,6 @@ module.exports = function (passport) {
             // find a bartender by username 
             db.Bartender.findOne({ username: bartenderData.username }, (err, bartender) => {
                 if (err) { return done(err); }
-
                 if (!bartender) {
                     const error = new Error('Incorrect username or password');
                     error.name = 'IncorrectCredentialsError';
@@ -76,5 +75,36 @@ module.exports = function (passport) {
             });
         }));
 
+        // passport.serializeUser(function(user, done) {
+ 
+        //     done(null, user.id);
+         
+        // });
+
+        // passport.deserializeUser(function(id, done) {
+ 
+        //     db.Bartender.findById(id).then(function(user) {
+         
+        //         if (user) {
+         
+        //             done(null, user.get());
+         
+        //         } else {
+         
+        //             done(user.errors, null);
+         
+        //         }
+         
+        //     })
+        //     .catch(err => console.log(err));
+
+        passport.serializeUser(function(user, cb) {
+            cb(null, user);
+          });
+          
+          passport.deserializeUser(function(obj, cb) {
+            cb(null, obj);
+          });
+         
 
 }
