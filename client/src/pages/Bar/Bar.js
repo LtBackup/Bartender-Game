@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import * as THREE from 'three'
-import Jumbotron from "../../components/Jumbotron";
+//import Jumbotron from "../../components/Jumbotron";
 import DrinkCard from "../../components/DrinkCard";
 import Canvas from "../../components/Canvas";
 import Serve from "../../components/Serve";
 import Rack from "../../components/Rack";
 // import { Container } from "../../components/Grid";
 import { Col, Row, Grid } from "react-bootstrap";
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+//import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
@@ -24,6 +24,8 @@ class Bar extends Component {
     counters: [0, 0, 0, 0],
     drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
     timer: 0,
+    modalShow: true,
+    modalMessage: 0, //0 is welcome, 1 is win, 2 is lose
     animating: false,
     getColor: (status) => {
       if (status === 0) {
@@ -41,7 +43,14 @@ class Bar extends Component {
   reset = () => {
     this.setState({ counters: [0, 0, 0, 0], drinkStatus: [] });
     this.getCocktail();
-    // cancelAnimationFrame(this.count);
+  }
+
+  handleClose() {
+    this.setState({ modalShow: false });
+  }
+
+  handleShow() {
+    this.setState({ modalShow: true });
   }
 
   toggleKeys = e => {
@@ -58,9 +67,7 @@ class Bar extends Component {
       else if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
         alert("Nice Pour! Let's mix another.");
-
         DBAPI.updateMastery(this.state.username, this.state.currentDrinkData.strDrink);
-        //increment user stats
         this.reset();
       }
     };
@@ -70,7 +77,7 @@ class Bar extends Component {
     var THREE = require('three');
     /* Sets up scene */
     let renderer;
-    renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("canvas"), alpha: true, antialias: true });
+    renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("barCanvas"), alpha: true, antialias: true });
     renderer.setClearColor(0x000000);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -237,6 +244,7 @@ class Bar extends Component {
 
   render() {
     return (
+      <Modal message={this.state.modalMessage} handleClose={this.handleClose} show={this.state.modalShow} />
       <Grid fluid>
         <Row>
           <div className="stage">

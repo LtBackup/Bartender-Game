@@ -68,7 +68,7 @@ class App extends Component {
           )
         })
         .then(res => {
-          console.log("new user?", this.state.loggedIn);
+          console.log("new user?", this.state.currUser);
           this.props.history.push("/bar");
         })
         .catch(err => console.log(err));
