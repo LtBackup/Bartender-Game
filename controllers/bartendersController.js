@@ -14,11 +14,11 @@ module.exports = {
     //   .findOne({ username: req.body.username })
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
-    passport.authenticate('local',{
-      successRedirect: '/bar',
-      failureRedirect: '/',
-      failureFlash : true
-  });
+  //   passport.authenticate('LoginStrategy',{
+  //     successRedirect: '/bar',
+  //     failureRedirect: '/',
+  //     failureFlash : true
+  // });
   },
   findByUsername: function (req, res) {
     db.Bartender
@@ -31,10 +31,10 @@ module.exports = {
     //   .create(req.body)
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
-    passport.authenticate('SignUpStrategy', (err) => {
-      if (err) {
-        console.log(err);
-      }
+    // passport.authenticate('SignUpStrategy', (err) => {
+    //   if (err) {
+    //     console.log(err);
+    //   }
       console.log("trying to send back new bar!");
       return res.redirect("/bar")
     }

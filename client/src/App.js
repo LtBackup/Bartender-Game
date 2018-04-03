@@ -39,8 +39,8 @@ class App extends Component {
         username: this.state.username,
         password: this.state.password
       })
-        .then((data) => {
-          console.log("data to set", data);
+        .then((res) => {
+          console.log("data to set", res);
           this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
             console.log("is authed?", this.state.isAuthenticated);
             console.log("logged user?", this.state.loggedUser);

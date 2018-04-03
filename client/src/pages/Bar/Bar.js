@@ -67,7 +67,6 @@ class Bar extends Component {
   }
 
   setStage = () => {
-    var ReactTHREE = require('react-three');
     var THREE = require('three');
     /* Sets up scene */
     let renderer;

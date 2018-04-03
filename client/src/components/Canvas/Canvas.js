@@ -1,6 +1,5 @@
 import React from "react";
 import * as THREE from 'three';
-import * as ReactThree from 'react-three';
 import { Col, Row, Container } from "../../components/Grid";
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
