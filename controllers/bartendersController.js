@@ -1,5 +1,4 @@
 const db = require("../models");
-const passport = require("passport");
 
 //Defining methods for the bartendersController
 module.exports = {
@@ -15,12 +14,11 @@ module.exports = {
     //   .findOne({ username: req.body.username })
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
-    passport.authenticate('loginStrategy',{
+    passport.authenticate('local',{
       successRedirect: '/bar',
       failureRedirect: '/',
       failureFlash : true
-  }
-    );
+  });
   },
   findByUsername: function (req, res) {
     db.Bartender
@@ -33,7 +31,7 @@ module.exports = {
     //   .create(req.body)
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
-    passport.authenticate('signUpStrategy', (err) => {
+    passport.authenticate('SignUpStrategy', (err) => {
       if (err) {
         console.log(err);
       }

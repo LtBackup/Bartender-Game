@@ -6,7 +6,7 @@ export default {
 
   // Get a user's info
   login: function(credentials) {
-    // console.log(credentials.username);
+    //console.log(credentials.username);
     return axios.post("/api/bartenders/login", credentials);
   },
 

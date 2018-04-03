@@ -1,7 +1,8 @@
 //const jwt = require('jsonwebtoken');
-const Bartender = require('mongoose').model('Bartender');
+// const Bartender = require('mongoose').model('Bartender');
 const PassportLocalStrategy = require('passport-local').Strategy;
 const passport = require("passport");
+const db = require("../models");
 console.log("in Login Strategy");
 
 /**
@@ -10,14 +11,14 @@ console.log("in Login Strategy");
 const LoginStrategy = new PassportLocalStrategy({
   usernameField: 'username',
 },
-(req, username, password, done) => {
+(username, password, done) => {
   const bartenderData = {
     username: username.trim(),
   };
   console.log("inner login strategy");
 
 // find a bartender by username 
-return Bartender.findOne({ username: bartenderData.username }, (err, bartender) => {
+db.findOne({ username: bartenderData.username }, (err, bartender) => {
   if (err) { return done(err); }
 
   if (!bartender) {
@@ -28,7 +29,7 @@ return Bartender.findOne({ username: bartenderData.username }, (err, bartender) 
   }
 
   // check if a hashed user's password is equal to a value saved in the database
-  return bartender.comparePassword(bartenderData.password, (passwordErr, isMatch) => {
+  bartender.comparePassword(bartenderData.password, (passwordErr, isMatch) => {
     if (err) { return done(err); }
 
     if (!isMatch) {
@@ -38,17 +39,11 @@ return Bartender.findOne({ username: bartenderData.username }, (err, bartender) 
       return done(error);
     }
 
-    // const payload = {
-    //   sub: bartender._id
+    // const data = {
+    //   name: bartender.name
     // };
-
-    // // create a token string
-    // const token = jwt.sign(payload, "getting turbo");
-    const data = {
-      name: bartender.name
-    };
-    console.log("data", data);
-    return done(null, data);
+    console.log("matched bartender", bartender);
+    return done(null, bartender);
   });
 });
 });
@@ -63,5 +58,4 @@ passport.serializeUser(function(user, cb) {
 passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
-
 module.exports = LoginStrategy;

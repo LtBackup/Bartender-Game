@@ -1,6 +1,7 @@
-const Bartender = require('mongoose').model('Bartender');
-var passport = require("passport");
+// const Bartender = require('mongoose').model('Bartender');
+const passport = require("passport");
 const PassportLocalStrategy = require('passport-local').Strategy;
+const db = require("../models");
 
 
 /**
@@ -13,7 +14,7 @@ const SignUpStrategy = new PassportLocalStrategy({
     username: username.trim(),
   };
 
-  const newBartender = new Bartender(bartenderData);
+  const newBartender = new db(bartenderData);
   newBartender.save((err) => {
     if (err) { return done(err); }
 
