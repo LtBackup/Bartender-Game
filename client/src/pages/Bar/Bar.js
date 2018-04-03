@@ -28,19 +28,8 @@ class Bar extends Component {
     drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
     timer: 0,
     modalShow: true,
-    modalMessage: 0, //0 is welcome, 1 is win, 2 is lose
+    modalMessage: 0, //0 is welcome, 1 is lose, 2 is win
     animating: false,
-    getColor: (status) => {
-      if (status === 0) {
-        return "blue";
-      }
-      else if (status === 1) {
-        return "green";
-      }
-      else if (status === 2) {
-        return "red";
-      }
-    }
   };
 
   reset = () => {
@@ -48,13 +37,25 @@ class Bar extends Component {
     this.getCocktail();
   }
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ modalShow: false });
   }
 
-  handleShow() {
-    this.setState({ modalShow: true });
+  getColor = (status) => {
+    if (status === 0) {
+      return "blue";
+    }
+    else if (status === 1) {
+      return "green";
+    }
+    else if (status === 2) {
+      return "red";
+    }
   }
+  
+  // handleShow() {
+  //   this.setState({ modalShow: true });
+  // }
 
   toggleKeys = e => {
     let key = e.key;
@@ -64,12 +65,14 @@ class Bar extends Component {
       this.setState({ keysPressed: copyPress });
       if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.some(function (i) { return i === 2; })) {
-        alert("Proportions are off...Let's try again.");
+          this.setState({ modalShow: true, modalMessage: 1 });
+        // alert("Proportions are off...Let's try again.");
         this.reset();
       }
       else if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
-        alert("Nice Pour! Let's mix another.");
+          this.setState({ modalShow: true, modalMessage: 2 });
+        // alert("Nice Pour! Let's mix another.");
         DBAPI.updateMastery(this.state.username, this.state.currentDrinkData.strDrink);
         this.reset();
       }
@@ -248,15 +251,13 @@ class Bar extends Component {
   render() {
     return (
       <div>
-        <Modal show={this.show} onHide={this.handleClose}>
+        <Modal show={this.state.modalShow} onHide={this.handleClose}>
         <Modal.Header closeButton>
             <Modal.Title>StirUp</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <h4>{messages[this.state.message]}</h4>
-            <p>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </p>
+            <h4>{messages[this.state.modalMessage]}</h4>
+            <p>Drink Details Here</p>
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={this.handleClose}>Close</Button>
@@ -271,7 +272,7 @@ class Bar extends Component {
                 ingredients={this.state.ingredients}
                 counter={this.state.counters}
                 status={this.state.drinkStatus}
-                getColor={this.state.getColor} />
+                getColor={this.getColor} />
               <Canvas />
               <Serve />
               <Rack />
