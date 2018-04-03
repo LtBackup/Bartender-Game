@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import * as THREE from 'three'
 //import Jumbotron from "../../components/Jumbotron";
+//import Modals from "../../components/Modals";
 import DrinkCard from "../../components/DrinkCard";
 import Canvas from "../../components/Canvas";
 import Serve from "../../components/Serve";
 import Rack from "../../components/Rack";
 // import { Container } from "../../components/Grid";
 import { Col, Row, Grid } from "react-bootstrap";
-//import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 //import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
 import './Bar.css';
 
+const messages = ["Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!",
+    "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
 
 class Bar extends Component {
   state = {
@@ -244,22 +247,38 @@ class Bar extends Component {
 
   render() {
     return (
-      <Modal message={this.state.modalMessage} handleClose={this.handleClose} show={this.state.modalShow} />
-      <Grid fluid>
-        <Row>
-          <div className="stage">
-            <DrinkCard
-              name={this.state.currentDrinkData.strDrink}
-              ingredients={this.state.ingredients}
-              counter={this.state.counters}
-              status={this.state.drinkStatus}
-              getColor={this.state.getColor} />
-            <Canvas />
-            <Serve />
-            <Rack />
-          </div>
-        </Row>
-      </Grid>
+      <div>
+        <Modal show={this.show} onHide={this.handleClose}>
+        <Modal.Header closeButton>
+            <Modal.Title>StirUp</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <h4>{messages[this.state.message]}</h4>
+            <p>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </p>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button onClick={this.handleClose}>Close</Button>
+        </Modal.Footer>
+    </Modal>
+        {/* <Modal message={this.state.modalMessage} handleClose={this.handleClose} show={this.state.modalShow} /> */}
+        <Grid fluid>
+          <Row>
+            <div className="stage">
+              <DrinkCard
+                name={this.state.currentDrinkData.strDrink}
+                ingredients={this.state.ingredients}
+                counter={this.state.counters}
+                status={this.state.drinkStatus}
+                getColor={this.state.getColor} />
+              <Canvas />
+              <Serve />
+              <Rack />
+            </div>
+          </Row>
+        </Grid>
+      </div>
     );
   }
 }

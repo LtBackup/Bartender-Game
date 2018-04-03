@@ -1,10 +1,11 @@
 import React from "react";
-import "./Modal.css";
+import { Button, Modal } from 'react-bootstrap';
+import "./Modals.css";
 
 const messages = ["Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!",
     "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
 
-const Modal = (props) => (
+const Modals = (props) => (
     <Modal show={props.show} onHide={props.handleClose}>
         <Modal.Header closeButton>
             <Modal.Title>StirUp</Modal.Title>

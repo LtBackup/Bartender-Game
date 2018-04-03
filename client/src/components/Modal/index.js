@@ -1,1 +1,1 @@
-export { default } from "./Bottle.js";
+export { default } from "./Modals.js";
