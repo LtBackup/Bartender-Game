@@ -20,6 +20,10 @@ const Nav = (props) => (
         <a href="/trophies" className="navbar-brand">
           Badges
         </a>
+        {props.isAuthenticated?
+        <a href="/trophies" id="logout" className="navbar-brand">Logout</a>:
+        null
+        }
       </div>
     </div>
   </nav>

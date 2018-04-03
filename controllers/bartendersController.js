@@ -15,8 +15,7 @@ module.exports = {
     //   .findOne({ username: req.body.username })
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
-    next();
-    passport.authenticate('loginStrategy',{     
+    passport.authenticate('loginStrategy',{
       successRedirect: '/bar',
       failureRedirect: '/',
       failureFlash : true
@@ -39,7 +38,7 @@ module.exports = {
         console.log(err);
       }
       console.log("trying to send back new bar!");
-      return res.json("/bar")
+      return res.redirect("/bar")
     }
     );
   },

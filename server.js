@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use(express.static("client/build"));
 // Add routes, both API and view
 app.use(routes);
+
 //Passport
 app.use(session({ secret: "getting turbo", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -26,7 +27,7 @@ const LoginStrategy = require('./passport/loginStrategy');
 const SignUpStrategy = require('./passport/signUpStrategy');
 passport.use('loginStrategy', LoginStrategy);
 passport.use('signUpStrategy', SignUpStrategy);
-console.log("passport", passport);
+
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;

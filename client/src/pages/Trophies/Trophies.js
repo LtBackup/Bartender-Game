@@ -14,7 +14,7 @@ import "./Trophies.css";
 class Trophies extends Component {
   state = {
     username: "",
-    drinksMastered: [{drinkName: "Manhattan", timesMade: 5}, {drinkName: "Daiquiri", timesMade: 5}]
+    drinksMastered: [{ drinkName: "Manhattan", timesMade: 5 }, { drinkName: "Daiquiri", timesMade: 5 }]
   };
 
   componentDidMount() {
@@ -32,11 +32,14 @@ class Trophies extends Component {
           </Col>
         </Row>
         <Row>
-          {this.state.drinksMastered.map((e, i) =>
-            <Col size="xs-3">
-              <Trophy />
-            </Col>
-          )}
+          {this.state.inprogress.map((e, i) => {
+            if (e.timesMade > 2) {
+              <Col size="xs-3">
+                <Trophy />
+              </Col>
+            }
+          })
+          }
         </Row>
       </Grid>
     );

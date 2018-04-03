@@ -1,6 +1,7 @@
 //const jwt = require('jsonwebtoken');
 const Bartender = require('mongoose').model('Bartender');
 const PassportLocalStrategy = require('passport-local').Strategy;
+const passport = require("passport");
 console.log("in Login Strategy");
 
 /**
@@ -8,21 +9,19 @@ console.log("in Login Strategy");
  */
 const LoginStrategy = new PassportLocalStrategy({
   usernameField: 'username',
-  passwordField: 'password',
 },
 (req, username, password, done) => {
   const bartenderData = {
     username: username.trim(),
-    password: password.trim(),
   };
-  console.log("in login strategy");
+  console.log("inner login strategy");
 
 // find a bartender by username 
-return Bartender.findOne({ username: BartenderData.username }, (err, bartender) => {
+return Bartender.findOne({ username: bartenderData.username }, (err, bartender) => {
   if (err) { return done(err); }
 
   if (!bartender) {
-    const error = new Error('Incorrect email or password');
+    const error = new Error('Incorrect username or password');
     error.name = 'IncorrectCredentialsError';
 
     return done(error);
@@ -48,9 +47,21 @@ return Bartender.findOne({ username: BartenderData.username }, (err, bartender) 
     const data = {
       name: bartender.name
     };
-
+    console.log("data", data);
     return done(null, data);
   });
 });
 });
+
+// In order to help keep authentication state across HTTP requests,
+// Sequelize needs to serialize and deserialize the user
+// Just consider this part boilerplate needed to make it all work
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
 module.exports = LoginStrategy;

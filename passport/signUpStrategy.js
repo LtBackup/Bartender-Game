@@ -1,4 +1,5 @@
 const Bartender = require('mongoose').model('Bartender');
+var passport = require("passport");
 const PassportLocalStrategy = require('passport-local').Strategy;
 
 
@@ -7,13 +8,9 @@ const PassportLocalStrategy = require('passport-local').Strategy;
  */
 const SignUpStrategy = new PassportLocalStrategy({
   usernameField: 'username',
-  passwordField: 'password',
-  session: false,
-  passReqToCallback: true
 }, (req, username, password, done) => {
   const bartenderData = {
     username: username.trim(),
-    password: password.trim(),
   };
 
   const newBartender = new Bartender(bartenderData);
@@ -22,6 +19,14 @@ const SignUpStrategy = new PassportLocalStrategy({
 
     return done(null);
   });
+});
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
 });
 
 module.exports = SignUpStrategy;

@@ -9,12 +9,16 @@ import DBAPI from "./utils/DBAPI.js";
 
 // pass the authenticaion checker middleware
 class App extends Component {
-  state = {
-    isAuthenticated: false,
-    loggedUser: "",
-    username: "",
-    password: ""
-  };
+  constructor(props) {
+    console.log("props", props);
+    super(props);
+    this.state = {
+      isAuthenticated: false,
+      loggedUser: "",
+      username: "",
+      password: ""
+    };
+  }
 
   setCredentials = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
@@ -35,17 +39,17 @@ class App extends Component {
         username: this.state.username,
         password: this.state.password
       })
-        .then(function (data) {
-          console.log("going to replace the loaded screen");
-
-        }).catch(function (err) {
+        .then((data) => {
+          console.log("data to set", data);
+          this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
+            console.log("is authed?", this.state.isAuthenticated);
+            console.log("logged user?", this.state.loggedUser);
+          })
+        })
+        .catch(function (err) {
           console.log(err);
         });
     }
-    this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
-      console.log("set username", this.state.username);
-      console.log("set password", this.state.password);
-    })
   }
 
   handleNew = () => {
@@ -72,7 +76,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Nav />
+          <Nav isAuthenticated={this.state.isAuthenticated} />
           <Switch>
             <Route exact path="/" render={(props) =>
               (<Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials} />)}
