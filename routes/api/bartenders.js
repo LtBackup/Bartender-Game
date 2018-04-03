@@ -23,6 +23,9 @@ router.route("/:username")
   //.get(bartendersController.findByUsername)
   .put(bartendersController.update);
 
+router.route("/logout")
+  .get(bartendersController.logout);
+
 // function isLoggedIn(req, res, next) {
 //   console.log(req);
 //   if (req.isAuthenticated())

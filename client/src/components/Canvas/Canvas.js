@@ -9,7 +9,7 @@ const Canvas = (props) => (
     <Row>
         <div id="barScene">
             <img id="barBG" src={require("../../barBG.jpg")} alt="canvas background" />
-            <canvas width="100%" height="auto"></canvas>
+            <canvas id="barCanvas" width="100%" height="auto"></canvas>
         </div>
     </Row>
 );

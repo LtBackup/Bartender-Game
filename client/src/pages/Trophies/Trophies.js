@@ -3,10 +3,9 @@ import Jumbotron from "../../components/Jumbotron";
 //import DeleteBtn from "../../components/DeleteBtn";
 // import { Col, Row, Container } from "../../components/Grid";
 //import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+//import { Input, TextArea, FormBtn } from "../../components/Form";
 import { Col, Row, Grid } from "react-bootstrap";
 // import { Form, FormGroup, ControlLabel, FormControl, Button, Panel } from 'react-bootstrap';
-import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
 import Trophy from "../../components/Trophy"
 import "./Trophies.css";
@@ -33,11 +32,11 @@ class Trophies extends Component {
         </Row>
         <Row>
           {this.state.inprogress.map((e, i) => {
-            if (e.timesMade > 2) {
+            (e.timesMade > 2)?
               <Col size="xs-3">
                 <Trophy />
-              </Col>
-            }
+              </Col>:
+              null;
           })
           }
         </Row>

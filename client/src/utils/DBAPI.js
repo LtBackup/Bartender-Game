@@ -14,7 +14,9 @@ export default {
   //   console.log(credentials.username);
   //   return axios.get("/api/bartenders/login");
   // },
-  
+  logout: function() {
+    return axios.get("/api/bartenders/logout");
+  },
 
   createUser: function(credentials) {
     console.log(credentials.username);

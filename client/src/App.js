@@ -4,7 +4,6 @@ import Start from "./pages/Start";
 import Bar from "./pages/Bar";
 import Trophies from "./pages/Trophies";
 import Nav from "./components/Nav";
-import CocktailAPI from "./utils/CocktailAPI.js";
 import DBAPI from "./utils/DBAPI.js";
 
 // pass the authenticaion checker middleware
@@ -16,7 +15,8 @@ class App extends Component {
       isAuthenticated: false,
       loggedUser: "",
       username: "",
-      password: ""
+      password: "",
+      badCreds: false
     };
   }
 
@@ -41,13 +41,14 @@ class App extends Component {
       })
         .then((res) => {
           console.log("data to set", res);
-          this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
+          this.setState({ isAuthenticated: true, loggedUser: currUser, username: "", password: "", badCreds: false }, function () {
             console.log("is authed?", this.state.isAuthenticated);
             console.log("logged user?", this.state.loggedUser);
           })
         })
         .catch(function (err) {
           console.log(err);
+          console.log("incorrect login creds");
         });
     }
   }
@@ -66,29 +67,40 @@ class App extends Component {
           }
           )
         })
-        .then(res => console.log("new user?", this.state.loggedIn))
-        .then(res => res.redirect("/bar"))
+        .then(res => {
+          console.log("new user?", this.state.loggedIn);
+          this.props.history.push("/bar");
+        })
         .catch(err => console.log(err));
     }
   };
+
+  logout = (event) => {
+    event.preventDefault();
+    DBAPI.logout()
+    .then(res => {
+      console.log("logged out?", this.state.isAuthenticated + this.state.currUser);
+      this.setState({ isAuthenticated: false, loggedUser: "", username: "", password: "", badCreds: false });
+    });
+  }
 
   render(props) {
     return (
       <Router>
         <div>
-          <Nav isAuthenticated={this.state.isAuthenticated} />
+          <Nav isAuthenticated={this.state.isAuthenticated} logout={this.logout} />
           <Switch>
             <Route exact path="/" render={(props) =>
               (<Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials} />)}
             />
             <Route exact path="/bar" render={(props) => (
-              this.state.loggedUser ?
+              this.state.loggedUser?
                 <Bar {...props} loggedUser={this.state.loggedUser} /> :
                 <Redirect to="/" />
             )}
             />
             <Route exact path="/trophies" render={(props) => (
-              this.state.loggedUser ?
+              this.state.loggedUser?
                 (<Trophies {...props} loggedUser={this.state.loggedUser} />) :
                 <Redirect to="/" />
             )}
