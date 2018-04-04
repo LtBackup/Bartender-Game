@@ -11,13 +11,22 @@ import Trophy from "../../components/Trophy"
 import "./Trophies.css";
 
 class Trophies extends Component {
-  state = {
-    username: "",
-    drinksMastered: [{ drinkName: "Manhattan", timesMade: 5 }, { drinkName: "Daiquiri", timesMade: 5 }]
+  constructor(props) {
+    console.log("props", props);
+    super(props);
+  this.state = {
+    loggedUser: this.props.loggedUser,
+    inProgress: [{drinkName: " ", timesMade: 0}]
   };
+}
 
   componentDidMount() {
-    //iterate through drinks mastered and make a trophy for each
+    DBAPI.getDrinks(this.state.loggedUser)
+      .then(res => {
+        console.log(res);
+        this.setState({ inProgress: res.data.inProgress });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -31,11 +40,15 @@ class Trophies extends Component {
           </Col>
         </Row>
         <Row>
-          {this.state.inprogress.map((e, i) => {
+          {this.state.inProgress.map((e, i) => {
             (e.timesMade > 2)?
+            (
               <Col size="xs-3">
-                <Trophy />
-              </Col>:
+                <Trophy>
+                  {e.drinkName}
+                </Trophy>
+              </Col>
+            ):
               null;
           })
           }

@@ -17,7 +17,7 @@ class Start extends Component {
     console.log("props", props);
     super(props);
     this.state = {
-        existingUser: "",
+        existingUser: true,
         isAuthenticated: "",
         username: "",
         password: ""

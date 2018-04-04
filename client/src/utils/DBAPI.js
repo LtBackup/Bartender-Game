@@ -10,10 +10,11 @@ export default {
     return axios.post("/api/bartenders/login", credentials);
   },
 
-  // getAll: function(credentials) {
-  //   console.log(credentials.username);
-  //   return axios.get("/api/bartenders/login");
-  // },
+   getDrinks: function(username) {
+    console.log(username);
+    return axios.get("/api/bartenders/" + username);
+   },
+
   logout: function() {
     return axios.get("/api/bartenders/logout");
   },

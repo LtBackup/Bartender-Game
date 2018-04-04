@@ -9,7 +9,7 @@ module.exports = {
   //     .catch(err => res.status(422).json(err));
   // },
   login: function (req, res, next) {
-    console.log("this is the login route", req.body);
+    console.log("this is the login route");
     // db.Bartender
     //   .findOne({ username: req.body.username })
     //   .then(dbModel => res.json(dbModel))
@@ -20,12 +20,15 @@ module.exports = {
   //     failureFlash : true
   // });
   },
-  // findByUsername: function (req, res) {
-  //   db.Bartender
-  //     .findOne({ username: req.params.username })
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // },
+
+  getDrinks: function (req, res, next) {
+    let user = req.params.username;
+    db.Bartender.findOne({ 'username': user })
+      .then(dbModel => {
+        res.json(dbModel) 
+      })
+      .catch(err => res.status(422).json(err));
+  },
   create: function (req, res, next) {
     // db.Bartender
     //   .create(req.body)

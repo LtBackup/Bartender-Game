@@ -19,8 +19,11 @@ const messages = ["Welcome to the bar! Time to learn some drinks. Hold down butt
     "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
 
 class Bar extends Component {
-  state = {
-    username: "bobby",
+  constructor(props) {
+    console.log("props", props);
+    super(props);
+  this.state = {
+    loggedUser: this.props.loggedUser,
     currentDrinkData: {},
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
@@ -31,6 +34,7 @@ class Bar extends Component {
     modalMessage: 0, //0 is welcome, 1 is lose, 2 is win
     animating: false,
   };
+  }
 
   reset = () => {
     this.setState({ counters: [0, 0, 0, 0], drinkStatus: [] });
@@ -73,7 +77,7 @@ class Bar extends Component {
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
           this.setState({ modalShow: true, modalMessage: 2 });
         // alert("Nice Pour! Let's mix another.");
-        DBAPI.updateMastery(this.state.username, this.state.currentDrinkData.strDrink);
+        DBAPI.updateMastery(this.state.loggedUser, this.state.currentDrinkData.strDrink);
         this.reset();
       }
     };

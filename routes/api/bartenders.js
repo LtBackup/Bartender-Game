@@ -19,7 +19,7 @@ router.route("/create")
 
 // Matches with "/api/bartenders/:username"
 router.route("/:username")
-  //.get(bartendersController.findByUsername)
+  .get(bartendersController.getDrinks)
   .put(bartendersController.update);
 
 router.route("/logout")

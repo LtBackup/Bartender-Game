@@ -16,7 +16,6 @@ class App extends Component {
     this.state = {
       isAuthenticated: false,
       loggedUser: "",
-      //usher: false,
       username: "",
       password: "",
       badCreds: false
@@ -101,7 +100,10 @@ class App extends Component {
             <Route exact path="/" render={(props) => (
                   this.state.loggedUser?
                   <Redirect to="/bar" />:
-                  <Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials} />
+                  <Start {...props}
+                  handleLogin={this.handleLogin}
+                  handleNew={this.handleNew}
+                  setCredentials={this.setCredentials} />
                 )}/>
             <Route exact path="/bar" render={(props) => (
               this.state.loggedUser?
@@ -122,4 +124,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default App;
