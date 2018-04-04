@@ -58,6 +58,6 @@ bartenderSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
-const Bartender = mongoose.model("Bartender", bartenderSchema, "bartenders");
+const Bartender = mongoose.model("Bartender", bartenderSchema);
 
 module.exports = Bartender;

@@ -5,9 +5,9 @@ const Login = (props) => (
     <div className="Login">
         <form onSubmit={(e) => {
           e.preventDefault();
-          props.setCredentials(props.username, props.password);
-        }
-        }>
+          // props.setCredentials(props.username, props.password);
+          props.handleLogin(props.username, props.password);
+        }}>
           <FormGroup controlId="username" bsSize="large">
             <ControlLabel>Username</ControlLabel>
             <FormControl

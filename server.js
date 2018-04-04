@@ -3,30 +3,39 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const routes = require("./routes");
 const passport = require("passport");
-var session = require("express-session");
+const session = require("express-session");
+
 const app = express();
 
 
 const PORT = process.env.PORT || 3001;
+
+
 
 // Configure body parser for AJAX requests
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // Serve up static assets
 app.use(express.static("client/build"));
-// Add routes, both API and view
-app.use(routes);
+
 //Passport
 app.use(session({ secret: "getting turbo", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Add routes, both API and view
+app.use(routes);
+
 // load passport strategies
-const LoginStrategy = require('./passport/loginStrategy');
-const SignUpStrategy = require('./passport/signUpStrategy');
-passport.use('loginStrategy', LoginStrategy);
-passport.use('signUpStrategy', SignUpStrategy);
-console.log("passport", passport);
+// const LoginStrategy = require('./passport/LoginStrategy');
+// const SignUpStrategy = require('./passport/SignUpStrategy');
+// passport.use('LoginStrategy', LoginStrategy);
+// passport.use('SignUpStrategy', SignUpStrategy);
+
+//load passport strategies
+require('./passport/passport.js')(passport);
+
+
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;

@@ -1,5 +1,4 @@
 const db = require("../models");
-const passport = require("passport");
 
 //Defining methods for the bartendersController
 module.exports = {
@@ -10,23 +9,24 @@ module.exports = {
   //     .catch(err => res.status(422).json(err));
   // },
   login: function (req, res, next) {
-    console.log("this is the login route", req.body);
+    console.log("this is the login route");
     // db.Bartender
     //   .findOne({ username: req.body.username })
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
-    next();
-    passport.authenticate('loginStrategy',{     
-      successRedirect: '/bar',
-      failureRedirect: '/',
-      failureFlash : true
-  }
-    );
+  //   passport.authenticate('LoginStrategy',{
+  //     successRedirect: '/bar',
+  //     failureRedirect: '/',
+  //     failureFlash : true
+  // });
   },
-  findByUsername: function (req, res) {
-    db.Bartender
-      .findOne({ username: req.params.username })
-      .then(dbModel => res.json(dbModel))
+
+  getDrinks: function (req, res, next) {
+    let user = req.params.username;
+    db.Bartender.findOne({ 'username': user })
+      .then(dbModel => {
+        res.json(dbModel) 
+      })
       .catch(err => res.status(422).json(err));
   },
   create: function (req, res, next) {
@@ -34,14 +34,12 @@ module.exports = {
     //   .create(req.body)
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
-    passport.authenticate('signUpStrategy', (err) => {
-      if (err) {
-        console.log(err);
-      }
+    // passport.authenticate('SignUpStrategy', (err) => {
+    //   if (err) {
+    //     console.log(err);
+    //   }
       console.log("trying to send back new bar!");
-      return res.json("/bar")
-    }
-    );
+      return res.redirect("/bar");
   },
   update: function (req, res) {
     // console.log("==============================");
@@ -67,5 +65,9 @@ module.exports = {
         }
       })
       .catch(err => res.status(422).json(err));
+  },
+  logout: function (req, res) {
+    req.logout();
+    res.redirect('/');
   }
 };

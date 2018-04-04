@@ -1,16 +1,38 @@
 const router = require("express").Router();
 const bartendersController = require("../../controllers/bartendersController");
+const passport = require("passport");
 
 // Matches with "/api/bartenders"
 router.route("/login")
-  .post(bartendersController.login);
+  .post(passport.authenticate('local-signin', 
+  {successRedirect: '/bar', failureRedirect: '/'}
+  // (req, res) => {
+  //   console.log("in the /login route", req);
+  //   res.send("success");
+  // }
+  ));
 
 router.route("/create")
-  .post(bartendersController.create);
+  .post(passport.authenticate("local-signup",
+  {successRedirect: '/bar', failureRedirect: '/'}
+  ));
 
 // Matches with "/api/bartenders/:username"
 router.route("/:username")
-  .get(bartendersController.findByUsername)
+  .get(bartendersController.getDrinks)
   .put(bartendersController.update);
+
+router.route("/logout")
+  .get(bartendersController.logout);
+
+// function isLoggedIn(req, res, next) {
+//   console.log(req);
+//   if (req.isAuthenticated())
+
+//     return next();
+
+//   res.redirect('/');
+
+// }
 
 module.exports = router;

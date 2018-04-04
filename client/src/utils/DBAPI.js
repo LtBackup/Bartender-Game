@@ -1,20 +1,23 @@
 import axios from "axios";
 //var passport = require("../config/passport");
-//var isAuthenticated = require("../config/middleware/isAuthenticated");
+//var isAuthenticated = require("../passport/isAuthenticated");
 
 export default {
 
   // Get a user's info
   login: function(credentials) {
-    // console.log(credentials.username);
+    console.log("DBAPI", credentials.username);
     return axios.post("/api/bartenders/login", credentials);
   },
 
-  getAll: function(credentials) {
-    console.log(credentials.username);
-    return axios.get("/api/bartenders/login");
+   getDrinks: function(username) {
+    console.log(username);
+    return axios.get("/api/bartenders/" + username);
+   },
+
+  logout: function() {
+    return axios.get("/api/bartenders/logout");
   },
-  
 
   createUser: function(credentials) {
     console.log(credentials.username);

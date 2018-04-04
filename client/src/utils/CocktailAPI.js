@@ -14,7 +14,6 @@ const CLASSICS = [
   "Gin and Tonic",
   "Collins",
   "French 75",
-  "Caipirinha",
   "Negroni",
   "Moscow Mule",
   "Mint Julep",
@@ -27,7 +26,7 @@ const CLASSICS = [
   "Pina Colada",
   "Boulevardier"
   ];
-  //to add: Pink Squirrel, Vieux Carre, Buck, Last Word, Lion's Tail, Pimm's Cup, Hurricane
+  //to add: Pink Squirrel, Vieux Carre, Buck, Last Word, Lion's Tail, Pimm's Cup, Hurricane, "Caipirinha"
 
 export default {
   getRandom: function() {

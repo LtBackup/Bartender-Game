@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 // import { Col, Row, Container } from "../../components/Grid";
 //import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+//import { Input, TextArea, FormBtn } from "../../components/Form";
 import { Col, Row, Grid } from "react-bootstrap";
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Login from "../../components/Login";
 import SignUp from "../../components/SignUp";
 import CocktailAPI from "../../utils/CocktailAPI.js";
@@ -18,11 +18,15 @@ class Start extends Component {
     super(props);
     this.state = {
         existingUser: true,
-        loggedIn: false,
+        isAuthenticated: "",
         username: "",
         password: ""
     };
   }
+
+//   relocate (newPage) {
+//     this.props.history.push(newPage);
+//   }
 
     componentDidMount() {
       
@@ -43,10 +47,6 @@ class Start extends Component {
         [event.target.id]: event.target.value.trim()
       });
     }
-  
-    // handleSubmit = event => {
-    //   event.preventDefault();
-    // }
 
     render() {
         return (

@@ -1,32 +1,39 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, BrowserHistory, WithRouter } from "react-router-dom";
 import Start from "./pages/Start";
 import Bar from "./pages/Bar";
 import Trophies from "./pages/Trophies";
 import Nav from "./components/Nav";
-import CocktailAPI from "./utils/CocktailAPI.js";
 import DBAPI from "./utils/DBAPI.js";
+import PropTypes from 'prop-types'
+import { withRouter } from "react-router-dom";
 
 // pass the authenticaion checker middleware
 class App extends Component {
-  state = {
-    isAuthenticated: false,
-    loggedUser: "",
-    username: "",
-    password: ""
-  };
+  constructor(props) {
+    console.log("props", props);
+    super(props);
+    this.state = {
+      isAuthenticated: false,
+      loggedUser: "",
+      username: "",
+      password: "",
+      badCreds: false
+    };
+  }
+  // setCredentials = (user, pass) => {
+  //   this.setState({ username: user, password: pass }, function () {
+  //     console.log("set username", this.state.username);
+  //     console.log("set password", this.state.password);
+  //     // this.handleLogin();
+  //   });
+  // }
 
-  setCredentials = (user, pass) => {
+  handleLogin = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
       console.log("set username", this.state.username);
       console.log("set password", this.state.password);
-      this.handleLogin();
-    });
-  }
-
-  handleLogin = () => {
-    //console.log(event);
-    let currUser = this.state.username;
+      let currUser = this.state.username;
     //event.preventDefault();
     console.log("currUser", currUser);
     if (this.state.username && this.state.password) {
@@ -35,21 +42,27 @@ class App extends Component {
         username: this.state.username,
         password: this.state.password
       })
-        .then(function (data) {
-          console.log("going to replace the loaded screen");
-
-        }).catch(function (err) {
+        .then((res) => {
+          this.setState({ isAuthenticated: true, loggedUser: currUser, username: "", password: "", badCreds: false }, function () {
+            console.log("is authed?", this.state.isAuthenticated);
+            console.log("logged user?", this.state.loggedUser);
+            // this.render("redirect");
+            //this.props.history.push('/bar');
+          })
+        })
+        .catch(function (err) {
           console.log(err);
+          console.log("incorrect login creds");
         });
     }
-    this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
-      console.log("set username", this.state.username);
-      console.log("set password", this.state.password);
-    })
+    }); 
   }
 
-  handleNew = () => {
-    let currUser = this.state.username;
+  handleNew = (user, pass) => {
+    this.setState({ username: user, password: pass }, function () {
+      console.log("set username", this.state.username);
+      console.log("set password", this.state.password);
+      let currUser = this.state.username;
     if (this.state.username && this.state.password) {
       DBAPI.createUser({
         username: this.state.username,
@@ -62,29 +75,44 @@ class App extends Component {
           }
           )
         })
-        .then(res => console.log("new user?", this.state.loggedIn))
-        .then(res => res.redirect("/bar"))
+        .then(res => {
+          console.log("new user?", this.state.currUser);
+        })
         .catch(err => console.log(err));
     }
+    });
   };
+
+  logout = (event) => {
+    event.preventDefault();
+    DBAPI.logout()
+    .then(res => {
+      this.setState({ isAuthenticated: false, loggedUser: "", username: "", password: "", badCreds: false });
+    });
+  }
 
   render(props) {
     return (
       <Router>
         <div>
-          <Nav />
+          <Nav isAuthenticated={this.state.isAuthenticated} logout={this.logout} />
           <Switch>
-            <Route exact path="/" render={(props) =>
-              (<Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials} />)}
-            />
+            <Route exact path="/" render={(props) => (
+                  this.state.loggedUser?
+                  <Redirect to="/bar" />:
+                  <Start {...props}
+                  handleLogin={this.handleLogin}
+                  handleNew={this.handleNew}
+                  setCredentials={this.setCredentials} />
+                )}/>
             <Route exact path="/bar" render={(props) => (
-              this.state.loggedUser ?
+              this.state.loggedUser?
                 <Bar {...props} loggedUser={this.state.loggedUser} /> :
                 <Redirect to="/" />
             )}
             />
             <Route exact path="/trophies" render={(props) => (
-              this.state.loggedUser ?
+              this.state.loggedUser?
                 (<Trophies {...props} loggedUser={this.state.loggedUser} />) :
                 <Redirect to="/" />
             )}
