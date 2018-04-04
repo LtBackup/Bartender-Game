@@ -24,6 +24,7 @@ class Bar extends Component {
     super(props);
   this.state = {
     loggedUser: this.props.loggedUser,
+    lastDrinkData: {},
     currentDrinkData: {},
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
@@ -37,8 +38,9 @@ class Bar extends Component {
   }
 
   reset = () => {
-    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [] });
-    this.getCocktail();
+    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [], lastDrinkData: this.state.currentDrinkData }, function(){
+      this.getCocktail();
+    });
   }
 
   handleClose = () => {
@@ -224,7 +226,7 @@ class Bar extends Component {
           }
         }
         validMeasurements.forEach((e, i) => {
-          let position = e.indexOf("oz")
+          let position = e.indexOf("oz");
           if (e.toLowerCase().includes("oz") || e.toLowerCase().includes("cl") || e.toLowerCase().includes("tbsp")) {
             const parsedMeasure = this.toOunce(e).toFixed(2);
             validComponents.push({ ingredient: validIngredients[i], measurement: parsedMeasure });
@@ -260,13 +262,13 @@ class Bar extends Component {
         </Modal.Header>
         <Modal.Body>
             <h4>{messages[this.state.modalMessage]}</h4>
-            <p>Drink Details Here</p>
+            {this.state.modalMessage === 2?<div><hr/><h5>{this.state.lastDrinkData.strDrink} Mixing Instructions</h5><p>{this.state.lastDrinkData.strInstructions}</p></div>:
+            null}
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={this.handleClose}>Close</Button>
         </Modal.Footer>
     </Modal>
-        {/* <Modal message={this.state.modalMessage} handleClose={this.handleClose} show={this.state.modalShow} /> */}
         <Grid fluid>
           <Row>
             <div className="stage">
