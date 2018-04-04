@@ -245,7 +245,6 @@ class Bar extends Component {
     this.getCocktail();
     this.addListeners();
     this.setStage();
-    console.log(this.state.username);
   }
 
   render() {

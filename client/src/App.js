@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, BrowserHistory, WithRouter } from "react-router-dom";
 import Start from "./pages/Start";
 import Bar from "./pages/Bar";
 import Trophies from "./pages/Trophies";
 import Nav from "./components/Nav";
 import DBAPI from "./utils/DBAPI.js";
+import PropTypes from 'prop-types'
+import { withRouter } from "react-router-dom";
 
 // pass the authenticaion checker middleware
 class App extends Component {
@@ -14,12 +16,12 @@ class App extends Component {
     this.state = {
       isAuthenticated: false,
       loggedUser: "",
+      //usher: false,
       username: "",
       password: "",
       badCreds: false
     };
   }
-
   // setCredentials = (user, pass) => {
   //   this.setState({ username: user, password: pass }, function () {
   //     console.log("set username", this.state.username);
@@ -45,7 +47,8 @@ class App extends Component {
           this.setState({ isAuthenticated: true, loggedUser: currUser, username: "", password: "", badCreds: false }, function () {
             console.log("is authed?", this.state.isAuthenticated);
             console.log("logged user?", this.state.loggedUser);
-            this.props.location.replaceState("/bar");
+            // this.render("redirect");
+            //this.props.history.push('/bar');
           })
         })
         .catch(function (err) {
@@ -75,7 +78,6 @@ class App extends Component {
         })
         .then(res => {
           console.log("new user?", this.state.currUser);
-          this.props.history.push("/bar");
         })
         .catch(err => console.log(err));
     }
@@ -96,9 +98,11 @@ class App extends Component {
         <div>
           <Nav isAuthenticated={this.state.isAuthenticated} logout={this.logout} />
           <Switch>
-            <Route exact path="/" render={(props) =>
-              (<Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials} />)}
-            />
+            <Route exact path="/" render={(props) => (
+                  this.state.loggedUser?
+                  <Redirect to="/bar" />:
+                  <Start {...props} handleLogin={this.handleLogin} handleNew={this.handleNew} setCredentials={this.setCredentials} />
+                )}/>
             <Route exact path="/bar" render={(props) => (
               this.state.loggedUser?
                 <Bar {...props} loggedUser={this.state.loggedUser} /> :
@@ -118,4 +122,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

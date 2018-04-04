@@ -23,7 +23,7 @@ module.exports = function (passport) {
             const newBartender = new db.Bartender(bartenderData);
             newBartender.save((err) => {
                 if (err) { return done(err); }
-
+                
                 return done(null);
             });
         }));

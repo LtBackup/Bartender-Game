@@ -17,12 +17,16 @@ class Start extends Component {
     console.log("props", props);
     super(props);
     this.state = {
-        existingUser: true,
-        loggedIn: false,
+        existingUser: "",
+        isAuthenticated: "",
         username: "",
         password: ""
     };
   }
+
+//   relocate (newPage) {
+//     this.props.history.push(newPage);
+//   }
 
     componentDidMount() {
       

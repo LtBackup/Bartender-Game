@@ -13,10 +13,9 @@ router.route("/login")
   ));
 
 router.route("/create")
-  .post(passport.authenticate("local-signup"), (req, res) => {
-    console.log("signup here", res.data);
-    res.send("SUCCESS!");
-  });
+  .post(passport.authenticate("local-signup",
+  {successRedirect: '/bar', failureRedirect: '/'}
+  ));
 
 // Matches with "/api/bartenders/:username"
 router.route("/:username")
