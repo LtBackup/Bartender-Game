@@ -15,7 +15,7 @@ import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
 import './Bar.css';
 
-const messages = ["Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!",
+const messages = ["Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!\n\nNote that only primary pourable ingredients are included for each drink.",
     "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
 
 class Bar extends Component {

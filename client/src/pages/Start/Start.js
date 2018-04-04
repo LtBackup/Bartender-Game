@@ -43,10 +43,6 @@ class Start extends Component {
         [event.target.id]: event.target.value.trim()
       });
     }
-  
-    // handleSubmit = event => {
-    //   event.preventDefault();
-    // }
 
     render() {
         return (

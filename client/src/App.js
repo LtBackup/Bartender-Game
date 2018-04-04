@@ -20,17 +20,19 @@ class App extends Component {
     };
   }
 
-  setCredentials = (user, pass) => {
+  // setCredentials = (user, pass) => {
+  //   this.setState({ username: user, password: pass }, function () {
+  //     console.log("set username", this.state.username);
+  //     console.log("set password", this.state.password);
+  //     // this.handleLogin();
+  //   });
+  // }
+
+  handleLogin = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
       console.log("set username", this.state.username);
       console.log("set password", this.state.password);
-      this.handleLogin();
-    });
-  }
-
-  handleLogin = () => {
-    //console.log(event);
-    let currUser = this.state.username;
+      let currUser = this.state.username;
     //event.preventDefault();
     console.log("currUser", currUser);
     if (this.state.username && this.state.password) {
@@ -40,10 +42,10 @@ class App extends Component {
         password: this.state.password
       })
         .then((res) => {
-          console.log("data to set", res);
           this.setState({ isAuthenticated: true, loggedUser: currUser, username: "", password: "", badCreds: false }, function () {
             console.log("is authed?", this.state.isAuthenticated);
             console.log("logged user?", this.state.loggedUser);
+            this.props.location.replaceState("/bar");
           })
         })
         .catch(function (err) {
@@ -51,10 +53,14 @@ class App extends Component {
           console.log("incorrect login creds");
         });
     }
+    }); 
   }
 
-  handleNew = () => {
-    let currUser = this.state.username;
+  handleNew = (user, pass) => {
+    this.setState({ username: user, password: pass }, function () {
+      console.log("set username", this.state.username);
+      console.log("set password", this.state.password);
+      let currUser = this.state.username;
     if (this.state.username && this.state.password) {
       DBAPI.createUser({
         username: this.state.username,
@@ -73,13 +79,13 @@ class App extends Component {
         })
         .catch(err => console.log(err));
     }
+    });
   };
 
   logout = (event) => {
     event.preventDefault();
     DBAPI.logout()
     .then(res => {
-      console.log("logged out?", this.state.isAuthenticated + this.state.currUser);
       this.setState({ isAuthenticated: false, loggedUser: "", username: "", password: "", badCreds: false });
     });
   }
