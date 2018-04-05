@@ -27,9 +27,9 @@ This application is [hosted on Heroku](https://bartender-game.herokuapp.com/), s
 
 ## Future Ideas
 Future enhancements to the site could include:
--A timer to add challenge to the mixing process
--Animation of a pouring cocktail
--Addition of non-liquid and smaller ingredients
+- A timer to add challenge to the mixing process
+- Animation of a pouring cocktail
+- Addition of non-liquid and smaller ingredients
 
 
 ## Collaboration
@@ -39,7 +39,8 @@ Please see my future ideas. I'm welcome collaboration and suggestions!
 - [Jim Pratt](https://github.com/ltbackup)
 
 ## Acknowledgements
-
+Thanks to TheCocktailDB.com for making this project possible and providing an excellent API.
+Also thanks to Lynda Chiwetelu for her excellent tutorial on integrating passport with your application.
 
 
 
