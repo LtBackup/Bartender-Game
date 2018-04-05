@@ -1,52 +1,60 @@
 import React, { Component } from "react";
 import * as THREE from 'three'
-//import Jumbotron from "../../components/Jumbotron";
-//import Modals from "../../components/Modals";
 import DrinkCard from "../../components/DrinkCard";
 import Canvas from "../../components/Canvas";
-import Serve from "../../components/Serve";
-import Rack from "../../components/Rack";
-// import { Container } from "../../components/Grid";
-import { Col, Row, Grid } from "react-bootstrap";
+import { Row, Grid } from "react-bootstrap";
 import { Button, Modal } from 'react-bootstrap';
-//import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
 import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
 import './Bar.css';
 
 const messages = ["Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!\n\nNote that only primary pourable ingredients are included for each drink.",
-    "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
+  "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
 
 class Bar extends Component {
   constructor(props) {
-    console.log("props", props);
     super(props);
-  this.state = {
-    loggedUser: this.props.loggedUser,
-    lastDrinkData: {},
-    currentDrinkData: {},
-    ingredients: [], //objects with ingredients and pour amounts
-    keysPressed: [false, false, false, false],
-    counters: [0, 0, 0, 0],
-    drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
-    timer: 0,
-    modalShow: true,
-    modalMessage: 0, //0 is welcome, 1 is lose, 2 is win
-    animating: false,
-  };
+    this.state = {
+      loggedUser: this.props.loggedUser,
+      lastDrinkData: {},
+      currentDrinkData: {},
+      ingredients: [],
+      keysPressed: [false, false, false, false],
+      counters: [0, 0, 0, 0],
+      drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
+      timer: 0,
+      modalShow: true,
+      modalMessage: 0, //0 is welcome, 1 is lose, 2 is win
+      animating: false,
+    };
   }
-
+  /**
+  * resets all game state variables and calls another cocktail fetch
+  * 
+  * @returns void
+  */
   reset = () => {
-    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [], lastDrinkData: this.state.currentDrinkData }, function(){
+    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [], lastDrinkData: this.state.currentDrinkData }, function () {
       this.getCocktail();
     });
   }
 
+  /**
+  * changes the modal show state to false
+  * 
+  * @returns void
+  */
   handleClose = () => {
     this.setState({ modalShow: false });
   }
 
+  /**
+  * based on status received, returns a different color
+  *
+  * @param {number} that determines color
+  * 
+  * @returns {string} color
+  */
   getColor = (status) => {
     if (status === 0) {
       return "blue";
@@ -58,34 +66,40 @@ class Bar extends Component {
       return "red";
     }
   }
-  
-  // handleShow() {
-  //   this.setState({ modalShow: true });
-  // }
 
+  /**
+  * when 1-4 are pressed, toggles booleans in an array to reflect which buttons are pressed
+  *
+  * @param {event} that determines which keys are pressed
+  * 
+  * @returns void
+  */
   toggleKeys = e => {
     let key = e.key;
     if (key > 0 && key < 5) {
       let copyPress = [...this.state.keysPressed];
-      copyPress[key - 1] = e.type == 'keydown';
+      copyPress[key - 1] = e.type === 'keydown';
       this.setState({ keysPressed: copyPress });
       if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.some(function (i) { return i === 2; })) {
-          this.setState({ modalShow: true, modalMessage: 1 });
-        // alert("Proportions are off...Let's try again.");
+        this.setState({ modalShow: true, modalMessage: 1 });
         this.reset();
       }
       else if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
-          this.setState({ modalShow: true, modalMessage: 2 });
-        // alert("Nice Pour! Let's mix another.");
-        const letter = {drinkData: this.state.currentDrinkData, drinkIngredients: this.state.ingredients}
+        this.setState({ modalShow: true, modalMessage: 2 });
+        const letter = { drinkData: this.state.currentDrinkData, drinkIngredients: this.state.ingredients }
         DBAPI.updateMastery(this.state.loggedUser, letter);
         this.reset();
       }
     };
   }
 
+  /**
+  * sets the Three.js stage for animation
+  * 
+  * @returns void
+  */
   setStage = () => {
     var THREE = require('three');
     /* Sets up scene */
@@ -136,6 +150,12 @@ class Bar extends Component {
     scene.add(plane, shape);
   }
 
+  /**
+  * function that counts values for drink pouring while buttons are pressed
+  * also calls animation frames to reflect this number change
+  * 
+  * @returns void
+  */
   count = () => {
     let copyCount = [...this.state.counters];
     let copyStatus = [...this.state.drinkStatus];
@@ -160,17 +180,29 @@ class Bar extends Component {
     requestAnimationFrame(this.count);
   }
 
+  /**
+  * when passed a value with a dash, finds the average of the two numbers
+  *
+  * @param {string} of two numbers seperated by a dash
+  * 
+  * @returns {number} of averaged numbers
+  */
   getAvg = (strDash) => {
     let values = strDash.split("-");
-    console.log("values", values);
     return (parseFloat(values[0]) + parseFloat(values[1])) / 2;
   }
 
+  /**
+  * converts all measurements passed to it to ounces
+  *
+  * @param {string} of measurement with units
+  * 
+  * @returns {number} of coverted measurement
+  */
   toOunce = (strMeasure) => {
-    let parseArr = strMeasure.split(" "); //array of each piece
+    let parseArr = strMeasure.split(" ");
     let result = 0;
     parseArr.forEach((e, i) => {
-      console.log(e);
       if ((e.toLowerCase() === "oz" || e.toLowerCase() === "cl" || e.toLowerCase() === "tbsp" || e.toLowerCase() === "tsp") && i !== parseArr.length - 1) {
         parseArr.splice(i + 1, parseArr.length - (i + 1));
       }
@@ -194,6 +226,11 @@ class Bar extends Component {
     return result;
   }
 
+  /**
+  * adds listeners for keypresses and removes old ones
+  * 
+  * @returns void
+  */
   addListeners = () => {
     document.removeEventListener("keydown", this.toggleKeys);
     document.removeEventListener("keyup", this.toggleKeys);
@@ -201,15 +238,13 @@ class Bar extends Component {
     document.addEventListener("keyup", this.toggleKeys);
   }
 
+  /**
+  * function gets a random classic cocktail from cocktaildb and returns the json object
+  * the function continues to grab primary ingredients from the cocktail and parse all values into ounces
+  * 
+  * @returns a login form to the page
+  */
   getCocktail = () => {
-    // CocktailAPI.getCocktail("Manhattan")
-    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
-    // .then(res => console.log(this.state.currentDrinkData))
-    // .catch(err => console.log(err));
-    // CocktailAPI.getRandom()
-    // .then(res => this.setState({currentDrinkData: res.data.drinks[0]}))
-    // .then(() => console.log(this.state.currentDrinkData))
-    // .catch(err => console.log(err));
     CocktailAPI.getClassic()
       .then(res => {
         let validIngredients = [];
@@ -217,17 +252,14 @@ class Bar extends Component {
         let validComponents = [];
         this.setState({ currentDrinkData: res.data.drinks[0] });
         for (let k in res.data.drinks[0]) {
-          //console.log(k);
           if (k.includes("Ingredient") && res.data.drinks[0][k]) {
             validIngredients.push(res.data.drinks[0][k].trim());
           }
           if (k.includes("Measure") && res.data.drinks[0][k]) {
             validMeasurements.push(res.data.drinks[0][k].trim());
-            console.log(res.data.drinks[0][k]);
           }
         }
         validMeasurements.forEach((e, i) => {
-          let position = e.indexOf("oz");
           if (e.toLowerCase().includes("oz") || e.toLowerCase().includes("cl") || e.toLowerCase().includes("tbsp")) {
             const parsedMeasure = this.toOunce(e).toFixed(2);
             validComponents.push({ ingredient: validIngredients[i], measurement: parsedMeasure });
@@ -238,16 +270,18 @@ class Bar extends Component {
       })
       .then(res => {
         if (!this.state.animating) {
-          console.log(this.state.animating);
           requestAnimationFrame(this.count);
           this.setState({ animating: true });
         }
-        console.log(this.state.currentDrinkData);
-        console.log(this.state.ingredients);
       })
       .catch(err => console.log(err));
   }
 
+  /**
+  * on component mount, adds listeners, gets a cocktail, and sets the stage
+  * 
+  * @returns void
+  */
   componentDidMount() {
     this.getCocktail();
     this.addListeners();
@@ -258,18 +292,18 @@ class Bar extends Component {
     return (
       <div>
         <Modal show={this.state.modalShow} onHide={this.handleClose}>
-        <Modal.Header closeButton>
+          <Modal.Header closeButton>
             <Modal.Title>StirUp</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className = "subtitle">
+          </Modal.Header>
+          <Modal.Body className="subtitle">
             <h4>{messages[this.state.modalMessage]}</h4>
-            {this.state.modalMessage === 2?<div><hr/><h5>{this.state.lastDrinkData.strDrink} Mixing Instructions</h5><p>{this.state.lastDrinkData.strInstructions}</p></div>:
-            null}
-        </Modal.Body>
-        <Modal.Footer>
+            {this.state.modalMessage === 2 ? <div><hr /><h5>{this.state.lastDrinkData.strDrink} Mixing Instructions</h5><p>{this.state.lastDrinkData.strInstructions}</p></div> :
+              null}
+          </Modal.Body>
+          <Modal.Footer>
             <Button onClick={this.handleClose}>Close</Button>
-        </Modal.Footer>
-    </Modal>
+          </Modal.Footer>
+        </Modal>
         <Grid fluid>
           <Row>
             <div className="stage">

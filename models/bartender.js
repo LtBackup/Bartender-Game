@@ -29,7 +29,11 @@ const bartenderSchema = new Schema({
   }],
   drinksMastered: []
 });
-
+  /**
+  * Hashes the password before a user is saved to the DB
+  * 
+  * @returns void
+  */
 bartenderSchema.pre('save', function(next) {
   let user = this;
 
@@ -51,6 +55,14 @@ bartenderSchema.pre('save', function(next) {
   });
 });
 
+/**
+  * Takes a plain password and compares it against the hashed value to assure they match
+  *
+  * @param {string} that contains plain password info
+  * @param {callback}
+  * 
+  * @returns void
+  */
 bartenderSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
       if (err) return cb(err);

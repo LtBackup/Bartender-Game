@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
-// import { Col, Row, Container } from "../../components/Grid";
-//import { List, ListItem } from "../../components/List";
-//import { Input, TextArea, FormBtn } from "../../components/Form";
-import { Col, Row, Grid } from "react-bootstrap";
+import { Row, Grid } from "react-bootstrap";
 import { Button } from 'react-bootstrap';
 import Login from "../../components/Login";
 import SignUp from "../../components/SignUp";
-import CocktailAPI from "../../utils/CocktailAPI.js";
-import DBAPI from "../../utils/DBAPI.js";
 import './Start.css';
  
 
 class Start extends Component {
   constructor(props) {
-    console.log("props", props);
     super(props);
     this.state = {
         existingUser: true,
@@ -25,25 +19,35 @@ class Start extends Component {
     };
   }
 
-//   relocate (newPage) {
-//     this.props.history.push(newPage);
-//   }
 
-    componentDidMount() {
-      
-    }
-
+    /**
+    * This function toggles the setting that determines whether the user should be shown the login or sign up panel
+    * also calls the app function that resets the badCreds variable to remove persistent error messages
+    * @param {event} the button press event that switches the panes
+    * 
+    * @returns void
+    */
     toggleExisting = (event) => {
         event.preventDefault();
         this.setState({ existingUser: !this.state.existingUser});
         this.props.toggleBadCreds();
     }
 
+    /**
+    * Determines if the username and password are long enough to enable a form submit
+    * 
+    * @returns {boolean}
+    */
     validateForm() {
       return this.state.username.length > 4 && this.state.password.length > 4;
-      console.log("Username and Password must be at least 5 characters long");
     }
-  
+
+    /**
+    * relays changes to a form to a corresponding variable in this.state
+    * @param {event} the form change event
+    * 
+    * @returns void
+    */
     handleChange = event => {
       this.setState({
         [event.target.id]: event.target.value.trim()

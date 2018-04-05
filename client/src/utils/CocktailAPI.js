@@ -28,6 +28,13 @@ const CLASSICS = [
   ];
   //to add: Pink Squirrel, Vieux Carre, Buck, Last Word, Lion's Tail, Pimm's Cup, Hurricane, "Caipirinha"
 
+/**
+* Axios calls to cocktaildb to retrieve cocktails
+*
+* @param {string} where applicable
+*
+* @returns the json response from cocktaildb api
+*/
 export default {
   getRandom: function() {
     return axios.get(BASEURL + APIKEY + RANDOM);

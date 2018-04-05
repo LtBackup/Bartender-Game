@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect, BrowserHistory, WithRouter } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Start from "./pages/Start";
 import Bar from "./pages/Bar";
 import Trophies from "./pages/Trophies";
@@ -19,10 +19,15 @@ class App extends Component {
     };
   }
 
+  /**
+  * Takes information from the login form and used it for a database call to validate login credentials
+  *
+  * @param {strings} that contains username and password info
+  * 
+  * @returns void
+  */
   handleLogin = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
-      console.log("set username", this.state.username);
-      console.log("set password", this.state.password);
       let currUser = this.state.username;
     console.log("currUser", currUser);
     if (this.state.username && this.state.password) {
@@ -33,8 +38,6 @@ class App extends Component {
       })
         .then((res) => {
           this.setState({ isAuthenticated: true, loggedUser: currUser, username: "", password: "", badCreds: false }, function () {
-            console.log("is authed?", this.state.isAuthenticated);
-            console.log("logged user?", this.state.loggedUser);
           })
         })
         .catch(err => {
@@ -44,11 +47,15 @@ class App extends Component {
     }
     }); 
   }
-
+  /**
+  * Takes information from the sign up form and uses it to create a new user
+  *
+  * @param {strings} that contains username and password info
+  * 
+  * @returns void
+  */
   handleNew = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
-      console.log("set username", this.state.username);
-      console.log("set password", this.state.password);
       let currUser = this.state.username;
     if (this.state.username && this.state.password) {
       DBAPI.createUser({
@@ -56,14 +63,7 @@ class App extends Component {
         password: this.state.password
       })
         .then(res => {
-          this.setState({ isAuthenticated: true, loggedUser: currUser, badCreds: false }, function () {
-            console.log("set username", this.state.username);
-            console.log("set password", this.state.password);
-          }
-          )
-        })
-        .then(res => {
-          console.log("new user?", this.state.currUser);
+          this.setState({ isAuthenticated: true, loggedUser: currUser, badCreds: false })
         })
         .catch(err => {
           this.setState({ badCreds: true });
@@ -73,10 +73,22 @@ class App extends Component {
     });
   };
 
+  /**
+  * resets the badCreds variable to ensure no pesisting errors on login
+  * 
+  * @returns void
+  */
   toggleBadCreds = () => {
     this.setState({ badCreds: false });
   }
 
+  /**
+  * Ends the authentication session and locks access to inner pages. Also resets session state variables
+  *
+  * @param {event} from pushing the logout button
+  * 
+  * @returns void
+  */
   logout = (event) => {
     event.preventDefault();
     DBAPI.logout()

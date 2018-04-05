@@ -1,5 +1,12 @@
 import axios from "axios";
 
+/**
+* MongoDB api
+*
+* @param user credentials
+* 
+* @returns relevant database documents
+*/
 export default {
   login: function(credentials) {
     console.log("DBAPI", credentials.username);

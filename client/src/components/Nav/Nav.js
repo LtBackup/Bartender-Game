@@ -2,6 +2,13 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import "./Nav.css";
 
+/**
+* Creates a navbar
+*
+* @param {object} that contains all the passed down properties
+* 
+* @returns a navbar
+*/
 const Nav = (props) => (
   <nav className="navbar navbar-top">
     <div className="container-fluid">
