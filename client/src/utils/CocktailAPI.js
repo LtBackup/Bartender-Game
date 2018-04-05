@@ -44,7 +44,6 @@ export default {
   },
   getClassic: function(){
     const classic = CLASSICS[Math.floor(Math.random()*CLASSICS.length)];
-    console.log(classic);
     return axios.get(BASEURL + APIKEY + SEARCH + classic);
   }
 };

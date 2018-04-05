@@ -8,7 +8,6 @@ import DBAPI from "./utils/DBAPI.js";
 
 class App extends Component {
   constructor(props) {
-    console.log("props", props);
     super(props);
     this.state = {
       isAuthenticated: false,
@@ -29,9 +28,7 @@ class App extends Component {
   handleLogin = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
       let currUser = this.state.username;
-    console.log("currUser", currUser);
     if (this.state.username && this.state.password) {
-      console.log("calling login");
       DBAPI.login({
         username: this.state.username,
         password: this.state.password
