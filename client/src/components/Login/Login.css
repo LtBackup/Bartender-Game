@@ -1,0 +1,12 @@
+.subtitle {
+    color: #333;
+}
+
+#warning {
+    color: red;
+}
+
+#submit {
+    background-color: #393D0B;
+    margin-bottom: 10px;
+}

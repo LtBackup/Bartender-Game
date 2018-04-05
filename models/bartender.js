@@ -19,14 +19,14 @@ const bartenderSchema = new Schema({
     "Password needs to be at least 5 characters long"
   ] },
   classicsMastered: { type: Boolean, default: false },
-  //object to contain {name: "drinkName", timesMade: 1}
   inProgress: [{
     drinkName: { type: String, default: ""},
-    timesMade: {type: Number, default: 1}
+    timesMade: {type: Number, default: 1},
+    drinkImage: {type: String, default: ""},
+    drinkIngredients: [{ingredient: {type: String}, measurement: {type: String}}],
+    drinkInstructions: {type: String, default: ""},
+    drinkLink: {type: String, default: ""}
   }],
-  //hashtable to store drink name as the key, and boolean for mastery
-  //[{type: Schema.Types.Mixed, default: {}}]
-  //object to contain {name: "drinkName", timesMade: 1}
   drinksMastered: []
 });
 

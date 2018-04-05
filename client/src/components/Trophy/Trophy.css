@@ -1,3 +1,29 @@
-Trophy {
-    width: 200px;
+.drinkTitle {
+    color: #333;
+}
+
+.drinkContent {
+    color: #333;
+    text-align: center;
+}
+
+.drinkPic {
+    max-height: 300px;
+    float: left;
+    margin: 10px;
+}
+
+.badge {
+    max-width: 400px;
+    margin: 20px;
+    background-color: #BD7B24;
+    padding: 5px;
+}
+
+#subtitle {
+    color: #333;
+}
+
+.panel {
+    margin: 0;
 }

@@ -1,20 +1,23 @@
 import React from "react";
 import { Form, FormGroup, ControlLabel, FormControl, Button, Panel } from 'react-bootstrap';
+import "./Trophy.css";
 
 const Trophy = (props) => (
-    <div>
+    <div className="badge">
     <Panel>
     <Panel.Heading bsStyle="info">
-      <Panel.Title componentClass="h3">{props.drinkName}</Panel.Title>
+      <Panel.Title componentClass="h3" className="drinkTitle">{props.drinkData.drinkName}</Panel.Title>
     </Panel.Heading>
-    <Panel.Body>Panel content</Panel.Body>
+    <Panel.Body className="drinkContent">
+    <a href={props.drinkData.drinkLink} target="_blank">
+    <img
+      className="drinkPic"
+        alt="Drink Image"
+        src={props.drinkData.drinkImage}
+        />
+        </a>
+    </Panel.Body>
   </Panel>
     </div>
-    // <Panel bsStyle="info">
-    //     <Panel.Heading>
-    //         <Panel.Title componentClass="h3">{props.drinkName}</Panel.Title>
-    //     </Panel.Heading>
-    //     <Panel.Body>Details</Panel.Body>
-    // </Panel>
 );
 export default Trophy;

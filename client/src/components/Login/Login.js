@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import "./Login.css"
 
 const Login = (props) => (
     <div className="Login">
@@ -9,7 +10,7 @@ const Login = (props) => (
           props.handleLogin(props.username, props.password);
         }}>
           <FormGroup controlId="username" bsSize="large">
-            <ControlLabel>Username</ControlLabel>
+            <ControlLabel className="subtitle">Username</ControlLabel>
             <FormControl
               autoFocus
               //type="email"
@@ -18,7 +19,7 @@ const Login = (props) => (
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
+            <ControlLabel className="subtitle">Password</ControlLabel>
             <FormControl
               //value={props.password}
               onChange={props.handleChange}
@@ -26,7 +27,7 @@ const Login = (props) => (
             />
           </FormGroup>
           <Button
-            bsStyle="primary"
+            id="submit"
             block
             bsSize="large"
             disabled={!props.validateForm}

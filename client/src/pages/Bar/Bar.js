@@ -79,7 +79,8 @@ class Bar extends Component {
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
           this.setState({ modalShow: true, modalMessage: 2 });
         // alert("Nice Pour! Let's mix another.");
-        DBAPI.updateMastery(this.state.loggedUser, this.state.currentDrinkData.strDrink);
+        const letter = {drinkData: this.state.currentDrinkData, drinkIngredients: this.state.ingredients}
+        DBAPI.updateMastery(this.state.loggedUser, letter);
         this.reset();
       }
     };

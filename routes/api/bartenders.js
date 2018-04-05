@@ -6,10 +6,6 @@ const passport = require("passport");
 router.route("/login")
   .post(passport.authenticate('local-signin', 
   {successRedirect: '/bar', failureRedirect: '/'}
-  // (req, res) => {
-  //   console.log("in the /login route", req);
-  //   res.send("success");
-  // }
   ));
 
 router.route("/create")
@@ -24,15 +20,5 @@ router.route("/:username")
 
 router.route("/logout")
   .get(bartendersController.logout);
-
-// function isLoggedIn(req, res, next) {
-//   console.log(req);
-//   if (req.isAuthenticated())
-
-//     return next();
-
-//   res.redirect('/');
-
-// }
 
 module.exports = router;

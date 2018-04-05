@@ -38,12 +38,13 @@ class Trophies extends Component {
           <Col size="xs-12">
             <Jumbotron>
               <h1>Mastered Cocktails</h1>
+              <p className="subtitle">Click for full drink details</p>
             </Jumbotron>
           </Col>
         </Row>
-        <Row>
+        <Row align="center">
           {this.state.inProgress.map(e =>
-            e.timesMade > 2?<Trophy drinkName={e.drinkName} />:null
+            e.timesMade > 2?<Trophy key={e.drinkName} drinkData={e} />:null
           )}
         </Row>
       </Grid>

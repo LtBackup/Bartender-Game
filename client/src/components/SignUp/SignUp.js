@@ -9,21 +9,21 @@ const SignUp = (props) => (
           props.handleNew(props.username, props.password);
         }}>
           <FormGroup controlId="username" bsSize="large">
-            <ControlLabel>Username</ControlLabel>
+            <ControlLabel className="subtitle">Username</ControlLabel>
             <FormControl
               autoFocus
               onChange={props.handleChange}
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
+            <ControlLabel className="subtitle">Password</ControlLabel>
             <FormControl
               onChange={props.handleChange}
               type="password"
             />
           </FormGroup>
           <Button
-            bsStyle="primary"
+            id="submit"
             block
             bsSize="large"
             disabled={!props.validateForm}
