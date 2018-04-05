@@ -24,6 +24,7 @@ class Bar extends Component {
     super(props);
   this.state = {
     loggedUser: this.props.loggedUser,
+    lastDrinkData: {},
     currentDrinkData: {},
     ingredients: [], //objects with ingredients and pour amounts
     keysPressed: [false, false, false, false],
@@ -37,8 +38,9 @@ class Bar extends Component {
   }
 
   reset = () => {
-    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [] });
-    this.getCocktail();
+    this.setState({ counters: [0, 0, 0, 0], drinkStatus: [], lastDrinkData: this.state.currentDrinkData }, function(){
+      this.getCocktail();
+    });
   }
 
   handleClose = () => {
@@ -77,7 +79,8 @@ class Bar extends Component {
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
           this.setState({ modalShow: true, modalMessage: 2 });
         // alert("Nice Pour! Let's mix another.");
-        DBAPI.updateMastery(this.state.loggedUser, this.state.currentDrinkData.strDrink);
+        const letter = {drinkData: this.state.currentDrinkData, drinkIngredients: this.state.ingredients}
+        DBAPI.updateMastery(this.state.loggedUser, letter);
         this.reset();
       }
     };
@@ -224,7 +227,7 @@ class Bar extends Component {
           }
         }
         validMeasurements.forEach((e, i) => {
-          let position = e.indexOf("oz")
+          let position = e.indexOf("oz");
           if (e.toLowerCase().includes("oz") || e.toLowerCase().includes("cl") || e.toLowerCase().includes("tbsp")) {
             const parsedMeasure = this.toOunce(e).toFixed(2);
             validComponents.push({ ingredient: validIngredients[i], measurement: parsedMeasure });
@@ -258,15 +261,15 @@ class Bar extends Component {
         <Modal.Header closeButton>
             <Modal.Title>StirUp</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className = "subtitle">
             <h4>{messages[this.state.modalMessage]}</h4>
-            <p>Drink Details Here</p>
+            {this.state.modalMessage === 2?<div><hr/><h5>{this.state.lastDrinkData.strDrink} Mixing Instructions</h5><p>{this.state.lastDrinkData.strInstructions}</p></div>:
+            null}
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={this.handleClose}>Close</Button>
         </Modal.Footer>
     </Modal>
-        {/* <Modal message={this.state.modalMessage} handleClose={this.handleClose} show={this.state.modalShow} /> */}
         <Grid fluid>
           <Row>
             <div className="stage">
@@ -277,8 +280,6 @@ class Bar extends Component {
                 status={this.state.drinkStatus}
                 getColor={this.getColor} />
               <Canvas />
-              <Serve />
-              <Rack />
             </div>
           </Row>
         </Grid>

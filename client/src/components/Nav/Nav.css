@@ -1,6 +1,11 @@
 .navbar {
     background-color: #8C4F18;
     color: lightgray;
+    font-family: 'Copse', serif;
+    border-bottom: 10px;
+}
+.navbar-brand {
+    text-transform: none;
 }
 
 a {

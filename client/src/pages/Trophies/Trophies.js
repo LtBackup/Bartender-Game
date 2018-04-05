@@ -5,6 +5,7 @@ import Jumbotron from "../../components/Jumbotron";
 //import { List, ListItem } from "../../components/List";
 //import { Input, TextArea, FormBtn } from "../../components/Form";
 import { Col, Row, Grid } from "react-bootstrap";
+import { Form, FormGroup, ControlLabel, FormControl, Button, Panel } from 'react-bootstrap';
 // import { Form, FormGroup, ControlLabel, FormControl, Button, Panel } from 'react-bootstrap';
 import DBAPI from "../../utils/DBAPI.js";
 import Trophy from "../../components/Trophy"
@@ -25,6 +26,7 @@ class Trophies extends Component {
       .then(res => {
         console.log(res);
         this.setState({ inProgress: res.data.inProgress });
+        console.log(this.state.inProgress);
       })
       .catch(err => console.log(err));
   }
@@ -36,22 +38,14 @@ class Trophies extends Component {
           <Col size="xs-12">
             <Jumbotron>
               <h1>Mastered Cocktails</h1>
+              <p className="subtitle">Click for full drink details</p>
             </Jumbotron>
           </Col>
         </Row>
-        <Row>
-          {this.state.inProgress.map((e, i) => {
-            (e.timesMade > 2)?
-            (
-              <Col size="xs-3">
-                <Trophy>
-                  {e.drinkName}
-                </Trophy>
-              </Col>
-            ):
-              null;
-          })
-          }
+        <Row align="center">
+          {this.state.inProgress.map(e =>
+            e.timesMade > 2?<Trophy key={e.drinkName} drinkData={e} />:null
+          )}
         </Row>
       </Grid>
     );

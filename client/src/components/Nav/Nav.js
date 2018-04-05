@@ -11,17 +11,17 @@ const Nav = (props) => (
           <span className="icon-bar" /> <span className="icon-bar" />
           <span className="icon-bar" />
         </button>
-        <Link to="/" className="navbar-brand">
+        <div className="navbar-brand">
           StirUp
-        </Link>
+        </div>
         <Link to="/bar" className="navbar-brand">
-          Bar
+          BAR
         </Link>
         <Link to="/trophies" className="navbar-brand">
-          Badges
+          BADGES
         </Link>
         {props.isAuthenticated?
-        <Link to="/" onClick={props.logout} id="logout" className="navbar-brand">Logout</Link>:
+        <Link to="/" onClick={props.logout} id="logout" className="navbar-brand">LOGOUT</Link>:
         null
         }
       </div>

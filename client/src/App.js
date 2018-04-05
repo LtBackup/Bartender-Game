@@ -5,10 +5,7 @@ import Bar from "./pages/Bar";
 import Trophies from "./pages/Trophies";
 import Nav from "./components/Nav";
 import DBAPI from "./utils/DBAPI.js";
-import PropTypes from 'prop-types'
-import { withRouter } from "react-router-dom";
 
-// pass the authenticaion checker middleware
 class App extends Component {
   constructor(props) {
     console.log("props", props);
@@ -21,20 +18,12 @@ class App extends Component {
       badCreds: false
     };
   }
-  // setCredentials = (user, pass) => {
-  //   this.setState({ username: user, password: pass }, function () {
-  //     console.log("set username", this.state.username);
-  //     console.log("set password", this.state.password);
-  //     // this.handleLogin();
-  //   });
-  // }
 
   handleLogin = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
       console.log("set username", this.state.username);
       console.log("set password", this.state.password);
       let currUser = this.state.username;
-    //event.preventDefault();
     console.log("currUser", currUser);
     if (this.state.username && this.state.password) {
       console.log("calling login");
@@ -46,13 +35,11 @@ class App extends Component {
           this.setState({ isAuthenticated: true, loggedUser: currUser, username: "", password: "", badCreds: false }, function () {
             console.log("is authed?", this.state.isAuthenticated);
             console.log("logged user?", this.state.loggedUser);
-            // this.render("redirect");
-            //this.props.history.push('/bar');
           })
         })
-        .catch(function (err) {
+        .catch(err => {
+          this.setState({ badCreds: true });
           console.log(err);
-          console.log("incorrect login creds");
         });
     }
     }); 
@@ -69,7 +56,7 @@ class App extends Component {
         password: this.state.password
       })
         .then(res => {
-          this.setState({ isAuthenticated: true, loggedUser: currUser }, function () {
+          this.setState({ isAuthenticated: true, loggedUser: currUser, badCreds: false }, function () {
             console.log("set username", this.state.username);
             console.log("set password", this.state.password);
           }
@@ -78,10 +65,17 @@ class App extends Component {
         .then(res => {
           console.log("new user?", this.state.currUser);
         })
-        .catch(err => console.log(err));
-    }
+        .catch(err => {
+          this.setState({ badCreds: true });
+          console.log(err);
+        });
+      }
     });
   };
+
+  toggleBadCreds = () => {
+    this.setState({ badCreds: false });
+  }
 
   logout = (event) => {
     event.preventDefault();
@@ -103,7 +97,10 @@ class App extends Component {
                   <Start {...props}
                   handleLogin={this.handleLogin}
                   handleNew={this.handleNew}
-                  setCredentials={this.setCredentials} />
+                  setCredentials={this.setCredentials}
+                  badCreds={this.state.badCreds} 
+                  toggleBadCreds={this.toggleBadCreds}
+                  />
                 )}/>
             <Route exact path="/bar" render={(props) => (
               this.state.loggedUser?
