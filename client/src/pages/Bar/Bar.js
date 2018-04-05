@@ -261,7 +261,7 @@ class Bar extends Component {
         <Modal.Header closeButton>
             <Modal.Title>StirUp</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className = "subtitle">
             <h4>{messages[this.state.modalMessage]}</h4>
             {this.state.modalMessage === 2?<div><hr/><h5>{this.state.lastDrinkData.strDrink} Mixing Instructions</h5><p>{this.state.lastDrinkData.strInstructions}</p></div>:
             null}
@@ -280,8 +280,6 @@ class Bar extends Component {
                 status={this.state.drinkStatus}
                 getColor={this.getColor} />
               <Canvas />
-              <Serve />
-              <Rack />
             </div>
           </Row>
         </Grid>

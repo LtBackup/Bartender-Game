@@ -18,6 +18,7 @@ class Start extends Component {
     super(props);
     this.state = {
         existingUser: true,
+        badCreds: this.props.badCreds,
         isAuthenticated: "",
         username: "",
         password: ""
@@ -35,6 +36,7 @@ class Start extends Component {
     toggleExisting = (event) => {
         event.preventDefault();
         this.setState({ existingUser: !this.state.existingUser});
+        this.props.toggleBadCreds();
     }
 
     validateForm() {
@@ -66,6 +68,7 @@ class Start extends Component {
                         username={this.state.username}
                         password={this.state.password}
                         setCredentials={this.props.setCredentials}
+                        badCreds={this.props.badCreds}
                         /> :
                         <SignUp toggle={this.toggleExisting}
                         validateForm={this.validateForm}
@@ -74,6 +77,7 @@ class Start extends Component {
                         username={this.state.username}
                         password={this.state.password}
                         setCredentials={this.props.setCredentials}
+                        badCreds={this.props.badCreds}
                         />}
                         <Button onClick={this.toggleExisting}>
                         {this.state.existingUser? 

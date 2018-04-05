@@ -5,7 +5,6 @@ const SignUp = (props) => (
     <div className="Login">
         <form onSubmit={(e) => {
           e.preventDefault();
-          //props.setCredentials(props.username, props.password);
           props.handleNew(props.username, props.password);
         }}>
           <FormGroup controlId="username" bsSize="large">
@@ -31,6 +30,9 @@ const SignUp = (props) => (
           >
             Sign Up!
           </Button>
+          <div id="warning">
+          {props.badCreds? "Username already exists. Try again.":""}
+          </div>
         </form>
       </div>
 );
