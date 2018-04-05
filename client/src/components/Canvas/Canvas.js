@@ -1,10 +1,14 @@
 import React from "react";
-import * as THREE from 'three';
-import { Col, Row, Container } from "../../components/Grid";
-//import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Row } from "react-bootstrap";
 import "./Canvas.css";
 
+/**
+* Creates a canvas that allows you to animate
+*
+* @param {object} that contains all the passed down properties
+* 
+* @returns a canvas
+*/
 const Canvas = (props) => (
     <Row>
         <div id="barScene">

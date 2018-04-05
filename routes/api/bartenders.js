@@ -2,6 +2,9 @@ const router = require("express").Router();
 const bartendersController = require("../../controllers/bartendersController");
 const passport = require("passport");
 
+//routes that determine which path to call in bartendersController.js
+//note that login and create utilize the local strategies of Passport
+
 // Matches with "/api/bartenders"
 router.route("/login")
   .post(passport.authenticate('local-signin', 

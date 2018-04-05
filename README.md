@@ -1,8 +1,15 @@
-# Bartender-Game
+# StirUp
 Learn your cocktails with a fun and easy game
 
 ## How to play
-It's easy! Log in, start the game, and try to mix the displayed cocktail as close as possible to the shown recipe.
+It's easy! Log in or create a new account, start the game, and try to mix the displayed cocktail as close as possible to the shown recipe.
+
+Use keys 1-4 on the keyboard to pour the respective ingredients. Be careful not to overfill your drink!
+
+Mix a drink 3 times to earn a badge with more details about the drink!
+
+![The Bar](designs/margarita.JPG)
+![Badges](designs/mastered.JPG)
 
 ## Try It
 This application is [hosted on Heroku](https://bartender-game.herokuapp.com/), so no downloads are necessary to use. Create an account to get started.
@@ -20,10 +27,13 @@ This application is [hosted on Heroku](https://bartender-game.herokuapp.com/), s
 
 ## Future Ideas
 Future enhancements to the site could include:
+-A timer to add challenge to the mixing process
+-Animation of a pouring cocktail
+-Addition of non-liquid and smaller ingredients
 
 
 ## Collaboration
-Please see our future ideas. We welcome collaboration and suggestions!
+Please see my future ideas. I'm welcome collaboration and suggestions!
 
 ## Authors
 - [Jim Pratt](https://github.com/ltbackup)

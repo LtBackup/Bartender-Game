@@ -1,7 +1,15 @@
 import React from "react";
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import "./Login.css"
 
+/**
+* Creates a login form that passes username and password entries to the state and triggers database
+* calls to validate or create users
+*
+* @param {object} that contains all the passed down properties
+* 
+* @returns a login form to the page
+*/
 const Login = (props) => (
     <div className="Login">
         <form onSubmit={(e) => {

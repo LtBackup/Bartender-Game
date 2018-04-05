@@ -7,6 +7,13 @@ module.exports = {
     console.log("this is the login route");
   },
 
+  /**
+  * gets all the mixed drink values for the corresponding user
+  *
+  * @param {string} username to find drinks for
+  * 
+  * @returns the DB document
+  */
   getDrinks: function (req, res, next) {
     let user = req.params.username;
     db.Bartender.findOne({ 'username': user })
@@ -17,14 +24,17 @@ module.exports = {
   },
 
   create: function (req, res, next) {
-      console.log("trying to send back new bar!");
-      return res.redirect("/bar");
+    console.log("this is the create route");
   },
+  
+  /**
+  * Saves a variety of drink data for each new drink mixed, or increments the timesMade value if already mixed
+  *
+  * @param {object} that contains all the drink information
+  * 
+  * @returns the DB document
+  */
   update: function (req, res) {
-    // console.log("==============================");
-    // console.log("req.body", req.body);
-    // console.log("req.body.drinkname", req.body.drinkName);
-    // console.log("req.params.username", req.params.username);
     let user = req.params.username;
     let drinkQuery = req.body.drinkData.strDrink;
     let drinkPic = req.body.drinkData.strDrinkThumb;
@@ -56,6 +66,12 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
+
+  /**
+* logs the user out
+* 
+* @returns a redirect to the home page
+*/
   logout: function (req, res) {
     req.logout();
     res.redirect('/');

@@ -1,5 +1,3 @@
-//const jwt = require('jsonwebtoken');
-// const Bartender = require('mongoose').model('Bartender');
 const PassportLocalStrategy = require('passport-local').Strategy;
 const passport = require("passport");
 const db = require("../models");
@@ -39,10 +37,6 @@ db.findOne({ username: bartenderData.username }, (err, bartender) => {
       return done(error);
     }
 
-    // const data = {
-    //   name: bartender.name
-    // };
-    console.log("matched bartender", bartender);
     return done(null, bartender);
   });
 });

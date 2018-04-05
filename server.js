@@ -26,12 +26,6 @@ app.use(passport.session());
 // Add routes, both API and view
 app.use(routes);
 
-// load passport strategies
-// const LoginStrategy = require('./passport/LoginStrategy');
-// const SignUpStrategy = require('./passport/SignUpStrategy');
-// passport.use('LoginStrategy', LoginStrategy);
-// passport.use('SignUpStrategy', SignUpStrategy);
-
 //load passport strategies
 require('./passport/passport.js')(passport);
 

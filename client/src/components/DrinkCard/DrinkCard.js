@@ -1,9 +1,14 @@
 import React from "react";
-import { Col, Row, Container } from "../../components/Grid";
-//import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Col, Row } from "../../components/Grid";
 import "./DrinkCard.css";
 
+/**
+* Creates a card that renders each ingredient in its own row with a counter for pouring
+*
+* @param {object} that contains all the passed down properties
+* 
+* @returns a drink card
+*/
 const DrinkCard = (props) => (
   <div className="DrinkCard">
     <Row>

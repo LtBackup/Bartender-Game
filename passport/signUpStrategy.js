@@ -1,4 +1,3 @@
-// const Bartender = require('mongoose').model('Bartender');
 const passport = require("passport");
 const PassportLocalStrategy = require('passport-local').Strategy;
 const db = require("../models");
