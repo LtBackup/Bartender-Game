@@ -8,6 +8,17 @@ import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
 import './Bar.css';
 
+// MB: One overarching piece of feedback I have is that it feels like the page components are doing too much that they don't
+// need to and passing functions around as props to a single child component
+// If a function is only used by one component, let's move it into that component to more fully encapsulate the logic
+// and so that the child components are more reusable if/when this app grows
+
+// MB: we could refactor the messages constant into an object so that it's more easily understandable what the purpose of each message is
+// ex: const messages = {
+//  welcome: "Welcome to the bar!...",
+//  lose: "Proportions are off...",
+//  win: "Nice Pour!..."
+// }
 const messages = ["Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!\n\nNote that only primary pourable ingredients are included for each drink.",
   "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
 
@@ -21,6 +32,8 @@ class Bar extends Component {
       ingredients: [],
       keysPressed: [false, false, false, false],
       counters: [0, 0, 0, 0],
+      // MB: Could we do something for drink status similar to messages to make more clear what the statuses are
+      // and to remove some of the magic numbers from your component logic?
       drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
       timer: 0,
       modalShow: true,
@@ -55,6 +68,9 @@ class Bar extends Component {
   * 
   * @returns {string} color
   */
+ 
+ // MB: since this function is only used in the DrinkCard component, we can move it there to more fully encapsulate
+ // the DrinkCard logic
   getColor = (status) => {
     if (status === 0) {
       return "blue";
@@ -82,6 +98,9 @@ class Bar extends Component {
       this.setState({ keysPressed: copyPress });
       if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.some(function (i) { return i === 2; })) {
+
+        // MB: building off my one of the first comments in this file regarding the messages constant: 
+        // If we have messages defined as an object, we can then update the modalMessages as modalMessage: messages.lose
         this.setState({ modalShow: true, modalMessage: 1 });
         this.reset();
       }
@@ -244,6 +263,32 @@ class Bar extends Component {
   * 
   * @returns a login form to the page
   */
+ 
+ // MB: There are multiple calls to setState within the same code block. We should try to limit our calls to setState, 
+ // otherwise we are re-rendering multiple times in a single block and often that's unnecessary (especially since this is
+ // being called in componentDidMount and updating state here can already sometimes cause performance issues: 
+ // https://reactjs.org/docs/react-component.html#componentdidmount)
+ // 
+ // Something like the following could be one way to achieve this
+ // 
+ // getCocktail = () => {
+  //   CocktailAPI.getClassic()
+  //     .then(res => {
+  //       let validIngredients = [];
+  //       let validMeasurements = [];
+  //       let validComponents = [];
+  //       const currentDrinkData = res.data.drinks[0];
+  //       
+  //       ... code removed for brevity
+  //       const ingredients = validComponents;
+  //       this.setState({ 
+  //          currentDrinkData,
+  //          ingredients
+  //       });
+  //     })
+  //     .then(res => {
+  //       ... code removed for brevity
+  
   getCocktail = () => {
     CocktailAPI.getClassic()
       .then(res => {
@@ -263,6 +308,9 @@ class Bar extends Component {
           if (e.toLowerCase().includes("oz") || e.toLowerCase().includes("cl") || e.toLowerCase().includes("tbsp")) {
             const parsedMeasure = this.toOunce(e).toFixed(2);
             validComponents.push({ ingredient: validIngredients[i], measurement: parsedMeasure });
+            // MB: Even though drinkStatus is an array and this is technically valid, this doesn't mutate the state
+            // which I believe is what we want. We can clone the current drink status, push the new status onto the clone, and
+            // and then set the state of drinkStatus to the clone to prevent any odd, unforseen bugs pop up in the future
             this.state.drinkStatus.push(0);
           }
         });

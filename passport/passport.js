@@ -56,9 +56,12 @@ module.exports = function (passport) {
                 }
 
                 // check if a hashed user's password is equal to a value saved in the database
-                bartender.comparePassword(bartenderData.password, (passwordErr, isMatch) => {
+bartender.comparePassword(bartenderData.password, (passwordErr, isMatch) => {
                     if (err) { return done(err); }
 
+                    // MB: when trying to run your app, I kept getting an invalid BCrypt hash error here
+                    // I'm sure I'm just missing something in how to correctly set up and run your app, 
+                    // but information in your README would be helpful for people wishing to review your app locally
                     if (!isMatch) {
                         const error = new Error('Incorrect email or password');
                         error.name = 'IncorrectCredentialsError';

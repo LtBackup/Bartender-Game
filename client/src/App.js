@@ -18,6 +18,8 @@ class App extends Component {
     };
   }
 
+  // MB: I love your comments describing the purpose of your functions, very helpful 👌
+
   /**
   * Takes information from the login form and used it for a database call to validate login credentials
   *
@@ -25,6 +27,11 @@ class App extends Component {
   * 
   * @returns void
   */
+ 
+ // MB: it seems that there is a lot of extra props passing that we don't necessarily need to do
+ // For example, it seems that this function could live in the Login component 
+ // in order to more fully encapsulate the login logic (and simplify your code)
+ 
   handleLogin = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
       let currUser = this.state.username;
@@ -51,6 +58,9 @@ class App extends Component {
   * 
   * @returns void
   */
+ 
+ // MB: similar comment to above, it feels like we can move where this logic 
+ // lives closer to the component that cares about it
   handleNew = (user, pass) => {
     this.setState({ username: user, password: pass }, function () {
       let currUser = this.state.username;
