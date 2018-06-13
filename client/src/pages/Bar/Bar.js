@@ -250,23 +250,25 @@ class Bar extends Component {
         let validIngredients = [];
         let validMeasurements = [];
         let validComponents = [];
-        this.setState({ currentDrinkData: res.data.drinks[0] });
-        for (let k in res.data.drinks[0]) {
-          if (k.includes("Ingredient") && res.data.drinks[0][k]) {
-            validIngredients.push(res.data.drinks[0][k].trim());
+        let currentDrinkData = res.data.drinks[0];
+        //this.setState({ currentDrinkData: res.data.drinks[0] });
+        for (let k in currentDrinkData) {
+          if (k.includes("Ingredient") && currentDrinkData[k]) {
+            validIngredients.push(currentDrinkData[k].trim());
           }
-          if (k.includes("Measure") && res.data.drinks[0][k]) {
-            validMeasurements.push(res.data.drinks[0][k].trim());
+          if (k.includes("Measure") && currentDrinkData[k]) {
+            validMeasurements.push(currentDrinkData[k].trim());
           }
         }
+        let currentDrinkStatuses = [];
         validMeasurements.forEach((e, i) => {
           if (e.toLowerCase().includes("oz") || e.toLowerCase().includes("cl") || e.toLowerCase().includes("tbsp")) {
             const parsedMeasure = this.toOunce(e).toFixed(2);
             validComponents.push({ ingredient: validIngredients[i], measurement: parsedMeasure });
-            this.state.drinkStatus.push(0);
+            currentDrinkStatuses.push(0);
           }
         });
-        this.setState({ ingredients: validComponents });
+        this.setState({ ingredients: validComponents, drinkStatus: currentDrinkStatuses, currentDrinkData: currentDrinkData });
       })
       .then(res => {
         if (!this.state.animating) {
