@@ -8,8 +8,11 @@ import CocktailAPI from "../../utils/CocktailAPI.js";
 import DBAPI from "../../utils/DBAPI.js";
 import './Bar.css';
 
-const messages = ["Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!\n\nNote that only primary pourable ingredients are included for each drink.",
-  "Proportions are off...Let's try again.", "Nice Pour! Let's mix another."]
+const messages = {
+    welcome: "Welcome to the bar! Time to learn some drinks. Hold down buttons 1-4 on the keyboard to pour the various ingredients in the prescribed amounts. Be careful not to overfill your drink!\n\nNote that only primary pourable ingredients are included for each drink.",
+    lose: "Proportions are off...Let's try again.",
+    win: "Nice Pour! Let's mix another."
+}
 
 class Bar extends Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class Bar extends Component {
       drinkStatus: [], //0 = not filled, 1 = good fill, 2 = overfilled
       timer: 0,
       modalShow: true,
-      modalMessage: 0, //0 is welcome, 1 is lose, 2 is win
+      modalMessage: "welcome", //0 is welcome, 1 is lose, 2 is win
       animating: false,
     };
   }
@@ -82,12 +85,12 @@ class Bar extends Component {
       this.setState({ keysPressed: copyPress });
       if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.some(function (i) { return i === 2; })) {
-        this.setState({ modalShow: true, modalMessage: 1 });
+        this.setState({ modalShow: true, modalMessage: "lose" });
         this.reset();
       }
       else if (this.state.keysPressed.every(function (i) { return !i; })
         && this.state.drinkStatus.every(function (i) { return i === 1; })) {
-        this.setState({ modalShow: true, modalMessage: 2 });
+        this.setState({ modalShow: true, modalMessage: "win" });
         const letter = { drinkData: this.state.currentDrinkData, drinkIngredients: this.state.ingredients }
         DBAPI.updateMastery(this.state.loggedUser, letter);
         this.reset();
@@ -299,7 +302,7 @@ class Bar extends Component {
           </Modal.Header>
           <Modal.Body className="subtitle">
             <h4>{messages[this.state.modalMessage]}</h4>
-            {this.state.modalMessage === 2 ? <div><hr /><h5>{this.state.lastDrinkData.strDrink} Mixing Instructions</h5><p>{this.state.lastDrinkData.strInstructions}</p></div> :
+            {this.state.modalMessage === "win" ? <div><hr /><h5>{this.state.lastDrinkData.strDrink} Mixing Instructions</h5><p>{this.state.lastDrinkData.strInstructions}</p></div> :
               null}
           </Modal.Body>
           <Modal.Footer>
