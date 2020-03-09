@@ -37,9 +37,12 @@ mongoose.Promise = global.Promise;
 // const DEV = "mongodb://localhost/reactreadinglist";
 const PRODUCTION = "mongodb://LtBackup:hottamale@ds123129.mlab.com:23129/heroku_3g8np357";
 
-// Connect to the Mongo DB
+//Set mongoose connection options
+const connectionOptions = { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true  }
+
+// Connect to the Mongo DB, and set options
 mongoose.connect(
-  process.env.MONGODB_URI || PRODUCTION
+  process.env.MONGODB_URI || PRODUCTION, connectionOptions
 );
 
 // Start the API server
